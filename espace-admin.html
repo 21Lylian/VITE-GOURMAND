@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Administrateur - Vite & Gourmand</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="espace-admin.html" aria-current="page">Espace Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <a class="skip-link" href="#main-content">Aller au contenu</a>
+
+  <main id="main-content" class="admin-main">
+    <section class="admin-hero">
+      <h1 class="admin-title">Espace Administrateur</h1>
+      <p class="admin-subtitle">Supervision globale: équipe, commandes, chiffre d'affaires et opérations.</p>
+      <div class="admin-kpis">
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">Employés total</span>
+          <strong id="kpi-employes-total">0</strong>
+        </article>
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">Employés actifs</span>
+          <strong id="kpi-employes-actifs">0</strong>
+        </article>
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">Menus disponibles</span>
+          <strong id="kpi-menus-total">0</strong>
+        </article>
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">CA (filtre actuel)</span>
+          <strong id="kpi-ca-total">0.00 EUR</strong>
+        </article>
+      </div>
+    </section>
+
+    <section id="gestion-employes" class="employe-section">
+      <h2 class="employe-section-title">Gestion des employés</h2>
+      <form id="form-ajout-employe" class="employe-form-filtre">
+        <label for="email-employe">E-mail employé</label>
+        <input type="email" id="email-employe" required>
+        <label for="mdp-employe">Mot de passe</label>
+        <input type="password" id="mdp-employe" required minlength="10">
+        <button type="submit" class="btn-employe-filtre">Créer le compte employé</button>
+      </form>
+      <div id="employes-list" class="admin-list"></div>
+    </section>
+
+    <section id="stats-commandes" class="employe-section">
+      <h2 class="employe-section-title">Statistiques commandes</h2>
+      <form id="filtres-stats" class="employe-form-filtre">
+        <label for="filtre-menu">Filtrer par menu</label>
+        <select id="filtre-menu"></select>
+        <label for="date-debut">Date début</label>
+        <input type="date" id="date-debut">
+        <label for="date-fin">Date de fin</label>
+        <input type="date" id="date-fin">
+        <button type="submit" class="btn-employe-filtre">Appliquer</button>
+      </form>
+      <div class="admin-chart-wrap">
+        <canvas id="graph-commandes" width="400" height="200"></canvas>
+      </div>
+      <div id="chiffre-affaires" class="admin-list"></div>
+    </section>
+
+    <section id="gestion-menus" class="employe-section">
+      <h2 class="employe-section-title">Gestion des menus</h2>
+      <button id="ajouter-menu" class="btn-employe">Ajouter un menu</button>
+      <div id="liste-menus-employe" class="employe-list"></div>
+    </section>
+
+    <section id="gestion-horaires" class="employe-section">
+      <h2 class="employe-section-title">Gestion des horaires</h2>
+      <form id="form-horaires" class="employe-form-filtre">
+        <label for="horaire-lundi">Lundi</label>
+        <input type="text" id="horaire-lundi" required>
+        <label for="horaire-mardi">Mardi</label>
+        <input type="text" id="horaire-mardi" required>
+        <label for="horaire-mercredi">Mercredi</label>
+        <input type="text" id="horaire-mercredi" required>
+        <label for="horaire-jeudi">Jeudi</label>
+        <input type="text" id="horaire-jeudi" required>
+        <label for="horaire-vendredi">Vendredi</label>
+        <input type="text" id="horaire-vendredi" required>
+        <label for="horaire-samedi">Samedi</label>
+        <input type="text" id="horaire-samedi" required>
+        <label for="horaire-dimanche">Dimanche</label>
+        <input type="text" id="horaire-dimanche" required>
+        <button type="submit" class="btn-employe-filtre">Mettre à jour</button>
+      </form>
+    </section>
+
+    <section id="gestion-commandes" class="employe-section">
+      <h2 class="employe-section-title">Gestion des commandes</h2>
+      <form id="filtre-commandes" class="employe-form-filtre">
+        <label for="statut">Filtrer par statut</label>
+        <select id="statut" name="statut">
+          <option value="">Tous</option>
+          <option value="en-attente">En attente</option>
+          <option value="accepte">Accepte</option>
+          <option value="preparation">En préparation</option>
+          <option value="livraison">En cours de livraison</option>
+          <option value="livre">Livre</option>
+          <option value="retour">En attente retour materiel</option>
+          <option value="terminee">Terminée</option>
+          <option value="annule">Annulée</option>
+        </select>
+        <label for="client">Client (nom ou email)</label>
+        <input type="text" id="client" name="client" placeholder="Ex: Dupont ou email">
+        <button type="submit" class="btn-employe-filtre">Filtrer</button>
+      </form>
+      <div class="employe-table-container">
+        <table id="table-commandes-employe" class="employe-table">
+          <thead>
+            <tr><th>Client</th><th>Menu</th><th>Date</th><th>Statut</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="commandes-employe"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gestion-avis" class="employe-section">
+      <h2 class="employe-section-title">Validation des avis clients</h2>
+      <ul id="avis-a-valider" class="employe-avis-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <section>
+      <ul>
+        <li>Lundi : 8h-20h</li>
+        <li>Mardi : 8h-20h</li>
+        <li>Mercredi : 8h-20h</li>
+        <li>Jeudi : 8h-20h</li>
+        <li>Vendredi : 8h-20h</li>
+        <li>Samedi : 8h-20h</li>
+        <li>Dimanche : 8h-20h</li>
+      </ul>
+    </section>
+    <nav><a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a></nav>
+  </footer>
+
+  <script src="js/modal.js"></script>
+  <script src="js/status-rules.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/espace-employe.js"></script>
+  <script src="js/espace-admin.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

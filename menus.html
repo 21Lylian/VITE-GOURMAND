@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menus – Vite & Gourmand</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menus.html" aria-current="page">Menus</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Nos Menus</h1>
+    <section id="filtres">
+      <h2>Filtres</h2>
+      <form id="form-filtres">
+        <label for="prix-min">Prix minimum</label>
+        <input type="number" id="prix-min" name="prix-min" min="0">
+        <label for="prix-max">Prix maximum</label>
+        <input type="number" id="prix-max" name="prix-max" min="0">
+        <label for="theme">Theme</label>
+        <select id="theme" name="theme">
+          <option value="">Tous</option>
+          <option value="noel">Noel</option>
+          <option value="classique">Classique</option>
+          <option value="evenement">Evenement</option>
+        </select>
+        <label for="regime">Regime</label>
+        <select id="regime" name="regime">
+          <option value="">Tous</option>
+          <option value="vegetarien">Vegetarien</option>
+          <option value="vegan">Vegan</option>
+          <option value="classique">Classique</option>
+        </select>
+        <label for="nb-personnes">Nombre de personnes minimum</label>
+        <input type="number" id="nb-personnes" name="nb-personnes" min="1">
+        <button type="submit">Filtrer</button>
+      </form>
+    </section>
+    <section id="liste-menus"></section>
+  </main>
+  <footer>
+    <section><ul><li>Lundi : 8h-20h</li><li>Mardi : 8h-20h</li><li>Mercredi : 8h-20h</li><li>Jeudi : 8h-20h</li><li>Vendredi : 8h-20h</li><li>Samedi : 8h-20h</li><li>Dimanche : 8h-20h</li></ul></section>
+    <nav><a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a></nav>
+  </footer>
+  <script src="js/app-data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/menus.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

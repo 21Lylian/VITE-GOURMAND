@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription - Vite & Gourmand</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="signup-main">
+    <section class="inscription-section signup-shell">
+      <aside class="signup-intro">
+        <p class="signup-kicker">Bienvenue</p>
+        <h1 class="inscription-title">Creer mon compte</h1>
+        <p class="signup-lead">
+          Cree ton espace client pour commander plus vite, suivre tes commandes et gerer tes informations.
+        </p>
+        <ul class="signup-points">
+          <li>Acces au suivi des commandes</li>
+          <li>Historique et avis en un seul endroit</li>
+          <li>Commande simplifiee en quelques clics</li>
+        </ul>
+      </aside>
+
+      <div class="signup-form-wrap">
+        <form id="form-inscription" class="inscription-form" autocomplete="on">
+          <div class="signup-grid">
+            <div class="form-group">
+              <label for="nom">Nom</label>
+              <input id="nom" name="nom" required>
+            </div>
+            <div class="form-group">
+              <label for="prenom">Prenom</label>
+              <input id="prenom" name="prenom" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="gsm">GSM</label>
+            <input id="gsm" name="gsm" required placeholder="06XXXXXXXX">
+          </div>
+
+          <div class="form-group">
+            <label for="adresse-postale">Adresse postale</label>
+            <input id="adresse-postale" name="adresse-postale" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required minlength="10" aria-describedby="password-rules">
+            <small id="password-rules" class="signup-hint">
+              10 caracteres minimum avec majuscule, minuscule, chiffre et caractere special.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="password-confirm">Confirmer le mot de passe</label>
+            <input type="password" id="password-confirm" name="password-confirm" required>
+          </div>
+
+          <div id="inscription-message" aria-live="polite" class="inscription-message" style="display:none;"></div>
+          <button type="submit" class="btn-connexion signup-submit">S'inscrire</button>
+        </form>
+
+        <p class="signup-login-link">
+          Deja inscrit ? <a href="connexion.html">Se connecter</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <section>
+      <ul>
+        <li>Lundi : 8h-20h</li>
+        <li>Mardi : 8h-20h</li>
+        <li>Mercredi : 8h-20h</li>
+        <li>Jeudi : 8h-20h</li>
+        <li>Vendredi : 8h-20h</li>
+        <li>Samedi : 8h-20h</li>
+        <li>Dimanche : 8h-20h</li>
+      </ul>
+    </section>
+    <nav>
+      <a href="mentions-legales.html">Mentions legales</a> | <a href="cgv.html">CGV</a>
+    </nav>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/inscription.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

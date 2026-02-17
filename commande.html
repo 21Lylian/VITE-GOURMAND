@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Commander un menu – Vite & Gourmand</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+<header><nav><ul><li><a href="index.html">Accueil</a></li><li><a href="menus.html">Menus</a></li><li><a href="connexion.html">Connexion</a></li><li><a href="contact.html">Contact</a></li></ul></nav></header>
+<main id="main-content"><section class="commande-section"><h1 class="commande-title">Commander un menu</h1>
+<form id="form-commande" class="commande-form" autocomplete="on">
+<div class="form-group"><label for="nom">Nom</label><input type="text" id="nom" name="nom" required></div>
+<div class="form-group"><label for="prenom">Prenom</label><input type="text" id="prenom" name="prenom" required></div>
+<div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="email" required></div>
+<div class="form-group"><label for="gsm">GSM</label><input type="tel" id="gsm" name="gsm" required></div>
+<div class="form-group"><label for="adresse">Adresse de prestation</label><input type="text" id="adresse" name="adresse" required></div>
+<div class="form-row"><div class="form-group"><label for="ville">Ville de prestation</label><input type="text" id="ville" name="ville" required></div><div class="form-group"><label for="km">Distance (km depuis Bordeaux)</label><input type="number" id="km" name="km" min="0" step="0.1" value="0" required></div></div>
+<div class="form-group"><label for="menu-id">Menu choisi</label><select id="menu-id" name="menu-id" required></select></div>
+<div class="form-row"><div class="form-group"><label for="date">Date de prestation</label><input type="date" id="date" name="date" required></div><div class="form-group"><label for="heure">Heure souhaitee</label><input type="time" id="heure" name="heure" required></div><div class="form-group"><label for="nb-personnes">Nombre de personnes</label><input type="number" id="nb-personnes" name="nb-personnes" min="1" required></div></div>
+<div id="recapitulatif" class="commande-recap"></div>
+<button type="submit" class="btn-commande">Valider la commande</button></form>
+<div id="confirmation-commande" class="commande-confirmation" style="display:none;" role="status" aria-live="polite">Commande envoyée !</div>
+</section></main>
+<footer><section><ul><li>Lundi : 8h-20h</li><li>Mardi : 8h-20h</li><li>Mercredi : 8h-20h</li><li>Jeudi : 8h-20h</li><li>Vendredi : 8h-20h</li><li>Samedi : 8h-20h</li><li>Dimanche : 8h-20h</li></ul></section><nav><a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a></nav></footer>
+<script src="js/modal.js"></script><script src="js/app-data.js"></script><script src="js/api.js"></script><script src="js/commande.js"></script><script src="js/main.js"></script>
+</body>
+</html>
+

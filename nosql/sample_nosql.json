@@ -1,0 +1,11 @@
+{
+  "orders": [
+    {"_id":"o1","menuId":1,"menuTitre":"Menu Noël","total":140.0,"date":"2026-12-20","status":"livre"},
+    {"_id":"o2","menuId":2,"menuTitre":"Menu Vegan","total":56.0,"date":"2026-12-10","status":"livre"},
+    {"_id":"o3","menuId":1,"menuTitre":"Menu Noël","total":350.0,"date":"2026-12-22","status":"accepte"}
+  ],
+  "menus_stats": [
+    {"menuId":1,"titre":"Menu Noël","commandes":12,"chiffre_affaires":4200.0},
+    {"menuId":2,"titre":"Menu Vegan","commandes":8,"chiffre_affaires":560.0}
+  ]
+}

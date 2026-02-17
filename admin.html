@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administration - Vite & Gourmand</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin.html" aria-current="page">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-hero">
+      <h1 class="admin-title">Tableau de bord administrateur</h1>
+      <p class="admin-subtitle">
+        Suivi des performances, supervision des commandes et gestion des utilisateurs.
+      </p>
+      <div class="admin-kpis">
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">Commandes</span>
+          <strong id="kpi-orders">0</strong>
+        </article>
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">Utilisateurs</span>
+          <strong id="kpi-users">0</strong>
+        </article>
+        <article class="admin-kpi">
+          <span class="admin-kpi-label">CA total</span>
+          <strong id="kpi-revenue">0.00 EUR</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="employe-section">
+      <h2 class="employe-section-title">Statistiques par menu</h2>
+      <div class="admin-chart-wrap">
+        <canvas id="chart-ca" width="600" height="300"></canvas>
+      </div>
+    </section>
+
+    <section class="employe-section">
+      <h2 class="employe-section-title">Commandes</h2>
+      <div id="admin-orders" class="admin-list"></div>
+    </section>
+
+    <section class="employe-section">
+      <h2 class="employe-section-title">Gestion utilisateurs</h2>
+      <div id="admin-users" class="admin-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <section>
+      <ul>
+        <li>Lundi : 8h-20h</li>
+        <li>Mardi : 8h-20h</li>
+        <li>Mercredi : 8h-20h</li>
+        <li>Jeudi : 8h-20h</li>
+        <li>Vendredi : 8h-20h</li>
+        <li>Samedi : 8h-20h</li>
+        <li>Dimanche : 8h-20h</li>
+      </ul>
+    </section>
+    <nav><a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a></nav>
+  </footer>
+
+  <script src="js/app-data.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
