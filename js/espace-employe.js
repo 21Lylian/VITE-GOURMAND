@@ -12,6 +12,25 @@ function getStatutLabel(status) {
   return labels[status] || status;
 }
 
+const HIDDEN_TEST_CLIENTS = new Set(["test", "2 test", "user test", "user order"]);
+
+function normalizeText(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function isHiddenTestOrder(order) {
+  const fullName = normalizeText(`${order.clientPrenom || ""} ${order.clientNom || ""}`);
+  const firstName = normalizeText(order.clientPrenom);
+  const lastName = normalizeText(order.clientNom);
+  const email = normalizeText(order.clientEmail);
+
+  if (HIDDEN_TEST_CLIENTS.has(fullName)) return true;
+  if (firstName === "user" && (lastName === "test" || lastName === "order")) return true;
+  if (email.endsWith("@test.local") || email.endsWith("@local.test")) return true;
+  if (email.includes(".test.")) return true;
+  return false;
+}
+
 function parseAllergenes(text) {
   return (text || "")
     .split(",")
@@ -70,7 +89,7 @@ async function saisirMenu(initial) {
 
 async function refreshKpis() {
   const menus = await window.Api.menus();
-  const orders = await window.Api.listOrders();
+  const orders = (await window.Api.listOrders()).filter((o) => !isHiddenTestOrder(o));
   const pendingReviews = await window.Api.pendingReviews();
   const commandesAttente = orders.filter((o) => (o.status || "en-attente") === "en-attente").length;
 
@@ -230,7 +249,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const tbody = document.getElementById("commandes-employe");
     const status = document.getElementById("statut").value || undefined;
     const client = document.getElementById("client").value.trim() || undefined;
-    const orders = await window.Api.listOrders({ status, client });
+    const orders = (await window.Api.listOrders({ status, client })).filter((o) => !isHiddenTestOrder(o));
     tbody.innerHTML = "";
     if (!orders.length) {
       const tr = document.createElement("tr");
