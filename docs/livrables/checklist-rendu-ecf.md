@@ -13,9 +13,10 @@
 - [x] Securite documentee (auth, roles, hash, validations)
 
 ## 3. Liens obligatoires
-- [ ] Lien GitHub public
-- [ ] Lien application deployee
-- [ ] Lien outil de gestion de projet
+- [x] Lien GitHub public : `https://github.com/21Lylian/VITE-GOURMAND`
+- [x] Lien application deployee : `https://21Lylian.github.io/VITE-GOURMAND/`
+- [x] Lien back-end (API healthcheck) : `https://vite-gourmand-1.onrender.com/api/health`
+- [x] Lien outil de gestion de projet : `https://trello.com/b/RvEypPS4/ecf-vite-gourmand`
 
 ## 4. Documents PDF obligatoires
 - [x] Manuel d'utilisation (source Markdown prete)
@@ -42,5 +43,4 @@
 
 ## 8. Action manuelle restante
 - Exporter les fichiers Markdown en PDF pour le depot ECF.
-- Renseigner les 3 liens obligatoires (GitHub, deploiement, outil projet).
 - Cocher la section 1 et 6 apres execution locale complete.

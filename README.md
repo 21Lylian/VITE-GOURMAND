@@ -1,4 +1,4 @@
-# Vite & Gourmand - ECF Full Stack
+# Vite & Gourmand - ECF
 
 Application web ECF Developpeur Web / Web Mobile avec front `HTML/CSS/JS` et API Node.js securisee.
 
@@ -94,6 +94,12 @@ npm run test:e2e
 - API par defaut : `http://localhost:3000`
 - Healthcheck : `GET /api/health`
 - Documentation backend : `docs/backend-setup.md`
+
+## Liens de deploiement
+
+- Front (GitHub Pages) : `https://21Lylian.github.io/VITE-GOURMAND/`
+- Back-end API : `https://vite-gourmand-1.onrender.com/api`
+- Back-end healthcheck : `https://vite-gourmand-1.onrender.com/api/health`
 
 Fonctionnalites couvertes :
 
