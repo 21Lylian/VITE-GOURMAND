@@ -1,5 +1,5 @@
 (function () {
-  const DEFAULT_API_BASE = "http://localhost:3000/api";
+  const DEFAULT_API_BASE = "https://vite-gourmand-1.onrender.com/api";
   const STORAGE_KEY = "auth_session";
 
   function isValidApiBase(value) {
@@ -14,6 +14,7 @@
 
   function computeAutoApiBase() {
     const host = window.location.hostname || "localhost";
+    if (host !== "localhost" && host !== "127.0.0.1") return null;
     return `${window.location.protocol || "http:"}//${host}:3000/api`;
   }
 
@@ -22,7 +23,8 @@
     const stored = localStorage.getItem("api_base_url");
     if (isValidApiBase(stored)) return stored;
     const auto = computeAutoApiBase();
-    return isValidApiBase(auto) ? auto : DEFAULT_API_BASE;
+    if (isValidApiBase(auto)) return auto;
+    return DEFAULT_API_BASE;
   }
 
   function getSession() {
