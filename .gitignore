@@ -4,3 +4,4 @@ backend/data/*.db
 backend/data/*.sqlite
 backend/data/*.json
 test-results/
+output/

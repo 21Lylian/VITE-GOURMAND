@@ -19,63 +19,100 @@
   </header>
 
   <main class="signup-main">
-    <section class="inscription-section signup-shell">
-      <aside class="signup-intro">
-        <p class="signup-kicker">Bienvenue</p>
-        <h1 class="inscription-title">Creer mon compte</h1>
+    <section class="inscription-section signup-shell signup-shell-enhanced">
+      <aside class="signup-intro signup-intro-enhanced">
+        <p class="signup-kicker">Espace client</p>
+        <h1 class="inscription-title">Creer un compte qui donne envie de commander</h1>
         <p class="signup-lead">
-          Cree ton espace client pour commander plus vite, suivre tes commandes et gerer tes informations.
+          Rejoins Vite & Gourmand pour reserver plus rapidement, suivre chaque etape de ta commande
+          et retrouver tes informations en quelques secondes.
         </p>
-        <ul class="signup-points">
-          <li>Acces au suivi des commandes</li>
-          <li>Historique et avis en un seul endroit</li>
-          <li>Commande simplifiee en quelques clics</li>
-        </ul>
+
+        <div class="signup-highlight-card">
+          <p class="signup-highlight-label">Pourquoi s'inscrire ?</p>
+          <ul class="signup-points">
+            <li>Suivi clair de tes commandes et de leurs statuts</li>
+            <li>Acces simplifie a ton historique et a tes avis</li>
+            <li>Coordonnees deja pre-remplies pour les prochaines reservations</li>
+          </ul>
+        </div>
+
+        <div class="signup-stats">
+          <article class="signup-stat">
+            <strong>Rapide</strong>
+            <span>Creation du compte en moins de 2 minutes</span>
+          </article>
+          <article class="signup-stat">
+            <strong>Pratique</strong>
+            <span>Un seul espace pour commander et suivre</span>
+          </article>
+          <article class="signup-stat">
+            <strong>Securise</strong>
+            <span>Authentification et gestion protegee des acces</span>
+          </article>
+        </div>
       </aside>
 
-      <div class="signup-form-wrap">
+      <div class="signup-form-wrap signup-form-wrap-enhanced">
+        <div class="signup-form-head">
+          <p class="signup-form-kicker">Nouvelle inscription</p>
+          <h2 class="signup-form-title">Ton compte commence ici</h2>
+          <p class="signup-form-copy">
+            Renseigne tes informations pour acceder a l'espace client et profiter d'un parcours de commande plus fluide.
+          </p>
+        </div>
+
         <form id="form-inscription" class="inscription-form" autocomplete="on">
           <div class="signup-grid">
             <div class="form-group">
               <label for="nom">Nom</label>
-              <input id="nom" name="nom" required>
+              <input id="nom" name="nom" required placeholder="Dupont">
             </div>
             <div class="form-group">
               <label for="prenom">Prenom</label>
-              <input id="prenom" name="prenom" required>
+              <input id="prenom" name="prenom" required placeholder="Camille">
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="gsm">GSM</label>
-            <input id="gsm" name="gsm" required placeholder="06XXXXXXXX">
+          <div class="signup-grid">
+            <div class="form-group">
+              <label for="gsm">GSM</label>
+              <input id="gsm" name="gsm" required placeholder="06XXXXXXXX">
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" required placeholder="camille@email.fr">
+            </div>
           </div>
 
           <div class="form-group">
             <label for="adresse-postale">Adresse postale</label>
-            <input id="adresse-postale" name="adresse-postale" required>
+            <input id="adresse-postale" name="adresse-postale" required placeholder="12 rue des Saveurs, 33000 Bordeaux">
           </div>
 
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" required>
+          <div class="signup-grid">
+            <div class="form-group">
+              <label for="password">Mot de passe</label>
+              <input type="password" id="password" name="password" required minlength="10" aria-describedby="password-rules">
+            </div>
+            <div class="form-group">
+              <label for="password-confirm">Confirmer le mot de passe</label>
+              <input type="password" id="password-confirm" name="password-confirm" required>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" required minlength="10" aria-describedby="password-rules">
-            <small id="password-rules" class="signup-hint">
-              10 caracteres minimum avec majuscule, minuscule, chiffre et caractere special.
-            </small>
-          </div>
-
-          <div class="form-group">
-            <label for="password-confirm">Confirmer le mot de passe</label>
-            <input type="password" id="password-confirm" name="password-confirm" required>
+          <div class="signup-password-panel" id="password-rules">
+            <p class="signup-password-title">Regles de securite</p>
+            <ul class="signup-password-list">
+              <li>10 caracteres minimum</li>
+              <li>Au moins une majuscule et une minuscule</li>
+              <li>Au moins un chiffre</li>
+              <li>Au moins un caractere special</li>
+            </ul>
           </div>
 
           <div id="inscription-message" aria-live="polite" class="inscription-message" style="display:none;"></div>
-          <button type="submit" class="btn-connexion signup-submit">S'inscrire</button>
+          <button type="submit" class="btn-connexion signup-submit">Creer mon compte</button>
         </form>
 
         <p class="signup-login-link">

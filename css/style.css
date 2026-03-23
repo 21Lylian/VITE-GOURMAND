@@ -1513,11 +1513,55 @@ footer nav a {
   padding: 1.1rem;
 }
 
+.signup-shell-enhanced {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 1.35rem;
+  background:
+    radial-gradient(circle at top left, #fff0db 0%, transparent 32%),
+    radial-gradient(circle at bottom right, #ffe3c1 0%, transparent 30%),
+    linear-gradient(135deg, #fffaf4, #fff4e8 55%, #fffaf7);
+  box-shadow: 0 24px 60px #9b56221f;
+}
+
+.signup-shell-enhanced::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid #f1dbc4;
+  border-radius: 18px;
+  pointer-events: none;
+}
+
 .signup-intro {
   background: linear-gradient(145deg, #fff2e2, #ffe3c5);
   border: 1px solid #f0cfaf;
   border-radius: 12px;
   padding: 1rem;
+}
+
+.signup-intro-enhanced {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  padding: 1.35rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(160deg, #fff0dd 0%, #ffdcb8 100%);
+  box-shadow: inset 0 1px 0 #fff9f2, 0 18px 40px #e17a261f;
+}
+
+.signup-intro-enhanced::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -90px;
+  top: -75px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff9ef 0%, #fff9ef00 70%);
+  pointer-events: none;
 }
 
 .signup-kicker {
@@ -1532,7 +1576,8 @@ footer nav a {
 .signup-lead {
   margin: 0.7rem 0 0.9rem 0;
   color: #5d4b3d;
-  line-height: 1.45;
+  line-height: 1.65;
+  max-width: 32rem;
 }
 
 .signup-points {
@@ -1546,11 +1591,95 @@ footer nav a {
   color: #4e3f33;
 }
 
+.signup-highlight-card {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.2rem;
+  padding: 1rem 1.05rem;
+  border-radius: 16px;
+  background: #fffaf4cf;
+  border: 1px solid #f1d8bd;
+  box-shadow: 0 14px 28px #9b562214;
+}
+
+.signup-highlight-label {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9a4e19;
+}
+
+.signup-stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.signup-stat {
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: #fff8f0bd;
+  border: 1px solid #f0d7ba;
+}
+
+.signup-stat strong {
+  color: #823d10;
+  font-size: 0.98rem;
+}
+
+.signup-stat span {
+  color: #5f5145;
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
+
 .signup-form-wrap {
   background: #fffdf9;
   border: 1px solid #f1e0cc;
   border-radius: 12px;
   padding: 1rem;
+}
+
+.signup-form-wrap-enhanced {
+  position: relative;
+  z-index: 1;
+  padding: 1.4rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fffdfa, #fff7ef);
+  box-shadow: 0 24px 45px #b86a2217;
+}
+
+.signup-form-head {
+  margin-bottom: 1.15rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0dfcb;
+}
+
+.signup-form-kicker {
+  margin: 0 0 0.3rem 0;
+  color: #9b501a;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.77rem;
+  font-weight: 800;
+}
+
+.signup-form-title {
+  margin: 0;
+  color: #2f2016;
+  font-size: clamp(1.6rem, 2vw, 2rem);
+}
+
+.signup-form-copy {
+  margin: 0.45rem 0 0 0;
+  color: #6d6155;
+  line-height: 1.6;
 }
 
 .signup-grid {
@@ -1570,22 +1699,67 @@ footer nav a {
   font-size: 0.88rem;
 }
 
+.inscription-form label {
+  font-weight: 700;
+  color: #60331a;
+  font-size: 0.95rem;
+}
+
+.inscription-form input {
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid #ead8c6;
+  background: #fffdfa;
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.inscription-form input::placeholder {
+  color: #b29b88;
+}
+
+.signup-password-panel {
+  margin-top: 0.35rem;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff6ea, #fff1df);
+  border: 1px solid #f1dbc2;
+}
+
+.signup-password-title {
+  margin: 0 0 0.55rem 0;
+  font-weight: 800;
+  color: #8f4615;
+}
+
+.signup-password-list {
+  margin: 0;
+  padding-left: 1.05rem;
+  display: grid;
+  gap: 0.3rem;
+  color: #644f40;
+}
+
 .signup-submit {
   width: 100%;
-  margin-top: 0.9rem;
+  margin-top: 1rem;
+  min-height: 54px;
+  border-radius: 14px;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
 }
 
 .inscription-message {
-  margin-top: 0.7rem;
-  border-radius: 10px;
-  padding: 0.65rem 0.75rem;
-  background: #fff5e8;
+  margin-top: 0.8rem;
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  background: #fff8f0;
   border: 1px solid #f2d2b1;
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .signup-login-link {
-  margin: 0.95rem 0 0 0;
+  margin: 1rem 0 0 0;
   text-align: center;
   color: #5e4e40;
 }
@@ -1602,6 +1776,23 @@ footer nav a {
 
   .signup-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .signup-shell-enhanced {
+    padding: 0.8rem;
+    border-radius: 16px;
+  }
+
+  .signup-intro-enhanced,
+  .signup-form-wrap-enhanced {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .inscription-title {
+    font-size: 1.9rem;
   }
 }
 
