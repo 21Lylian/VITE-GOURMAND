@@ -11,22 +11,29 @@ Base: `.env.example`
 Configurer en production:
 - `PORT` (souvent impose par la plateforme)
 - `JWT_SECRET` (fort, unique)
-- `DB_PATH` (chemin persistant)
+- `DATABASE_URL` (base PostgreSQL distante)
+- `DB_SSL` (`true` sur la plupart des hebergeurs)
 - `NOSQL_PATH` (chemin persistant)
 
 ## 3. Deploiement API (exemple Render)
-1. Creer un service Web depuis le repo.
-2. Build command: `npm install`
-3. Start command: `npm run start:api`
-4. Ajouter les variables d'environnement.
-5. Verifier endpoint: `https://<api-domain>/api/health`
+Le depot contient un fichier `render.yaml`.
 
-## 4. Deploiement front (exemple Vercel/Netlify)
-1. Importer le meme repo.
-2. Framework: `Other` / static site.
-3. Dossier racine: projet.
-4. Build command: aucune.
-5. Publish directory: racine.
+1. Pousser le projet sur GitHub.
+2. Dans Render, creer un nouveau Blueprint.
+3. Pointer vers le repo GitHub.
+4. Laisser Render lire `render.yaml`.
+5. Renseigner les secrets demandes (`JWT_SECRET`, SMTP si besoin).
+6. Lancer le provisionnement.
+7. Verifier endpoint: `https://<api-domain>/api/health`
+
+## 4. Deploiement front (GitHub Pages)
+Le depot contient le workflow `.github/workflows/pages.yml`.
+
+1. Pousser le projet sur GitHub.
+2. Dans GitHub, ouvrir `Settings > Pages`.
+3. Dans `Build and deployment`, choisir `GitHub Actions`.
+4. Pousser sur `main` pour declencher le workflow.
+5. Recuperer l'URL GitHub Pages generee.
 
 ## 5. Liaison front -> API en production
 Le front lit:
@@ -40,6 +47,8 @@ Option recommandee:
 ```js
 localStorage.setItem("api_base_url", "https://<api-domain>/api")
 ```
+
+Avec GitHub Pages, cette deuxieme option est la plus simple pour une validation ECF rapide.
 
 ## 6. Verification post-deploiement
 - chargement `index.html`
@@ -55,6 +64,7 @@ localStorage.setItem("api_base_url", "https://<api-domain>/api")
 - sauvegarde DB
 - limitation CORS sur domaine front
 - journalisation erreurs
+- le store NoSQL JSON n'est pas un stockage durable de niveau production
 
 ## 8. Livrables URL attendus
 - URL repo public

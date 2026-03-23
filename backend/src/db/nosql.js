@@ -38,10 +38,10 @@ function upsertOrderDoc(order) {
   const idx = store.orders.findIndex((o) => o.orderId === order.id);
   const doc = {
     orderId: order.id,
-    menuId: order.menu_id,
-    menuTitre: order.menu_titre,
+    menuId: order.menu_id ?? order.menuId,
+    menuTitre: order.menu_titre ?? order.menuTitre,
     total: order.total,
-    status: order.statut,
+    status: order.statut ?? order.status,
     createdAt: order.created_at
   };
   if (idx >= 0) store.orders[idx] = doc;

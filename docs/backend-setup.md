@@ -8,6 +8,14 @@
 npm install
 ```
 
+## Base de donnees
+Le projet utilise PostgreSQL.
+
+Option recommandee en local:
+```bash
+npm run docker:up
+```
+
 ## Lancement API
 ```bash
 npm run start:api
@@ -21,7 +29,8 @@ Copier `.env.example` vers `.env` puis adapter si necessaire.
 Variables:
 - `PORT`
 - `JWT_SECRET`
-- `DB_PATH`
+- `DATABASE_URL`
+- `DB_SSL`
 - `NOSQL_PATH`
 
 ## Endpoints principaux

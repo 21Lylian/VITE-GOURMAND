@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+test-results
+playwright-report
+backend/data
+docs
+maquettes
+tests

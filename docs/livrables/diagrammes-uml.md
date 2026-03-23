@@ -87,7 +87,7 @@ sequenceDiagram
 flowchart TB
   Browser[Navigateur] --> Front[Front statique]
   Front --> API[API Node.js/Express]
-  API --> SQL[(SQLite)]
+  API --> SQL[(PostgreSQL)]
   API --> NOSQL[(JSON Store NoSQL stats)]
   API --> SMTP[(SMTP Mailtrap/Brevo)]
 ```

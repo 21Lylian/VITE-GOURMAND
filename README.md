@@ -6,7 +6,7 @@ Application web ECF Developpeur Web / Web Mobile avec front `HTML/CSS/JS` et API
 
 - Front-end : HTML5, CSS3, JavaScript
 - Back-end : Node.js, Express, JWT, bcrypt
-- Base relationnelle : SQLite (fichier local)
+- Base relationnelle : PostgreSQL (base distante ou conteneurisee via Docker)
 - Base NoSQL : JSON document store (statistiques de commandes)
 - Tests E2E : Playwright
 
@@ -16,6 +16,7 @@ Application web ECF Developpeur Web / Web Mobile avec front `HTML/CSS/JS` et API
 
 - Node.js (LTS recommandee)
 - npm
+- Docker Desktop (recommande pour PostgreSQL local)
 
 ### 1) Cloner le depot
 
@@ -40,7 +41,13 @@ Windows PowerShell :
 Copy-Item .env.example .env
 ```
 
-### 4) ( l'API terminal 1 )
+### 4) Demarrer la base distante locale (recommande)
+
+```bash
+npm run docker:up
+```
+
+### 5) Lancer l'API (terminal 1)
 
 ```bash
 npm run start:api
@@ -49,7 +56,7 @@ npm run start:api
 - API : `http://localhost:3000`
 - Healthcheck : `http://localhost:3000/api/health`
 
-### 5) Demarrer le front statique (terminal 2)
+### 6) Demarrer le front statique (terminal 2)
 
 ```bash
 npx http-server . -p 4173 -c-1
@@ -57,7 +64,7 @@ npx http-server . -p 4173 -c-1
 
 - Front : `http://127.0.0.1:4173/index.html`
 
-### 6)  les tests E2E (optionnel)
+### 7) Lancer les tests E2E (optionnel)
 
 ```bash
 npm run test:e2e
@@ -66,7 +73,28 @@ npm run test:e2e
 ## Scripts disponibles
 
 - `npm run start:api` : demarre l'API Node.js
+- `npm run docker:up` : demarre PostgreSQL + l'API via Docker Compose
+- `npm run docker:down` : arrete les conteneurs Docker
 - `npm run test:e2e` : lance les tests E2E Playwright
+
+## Deploiement production
+
+Configuration preparee dans le depot :
+
+- API + base PostgreSQL Render : `render.yaml`
+- Front statique GitHub Pages : `.github/workflows/pages.yml`
+
+Ordre recommande :
+
+1. pousser le projet sur GitHub
+2. creer l'API Render depuis `render.yaml`
+3. recuperer l'URL publique de l'API
+4. configurer le front pour utiliser cette URL via `window.API_BASE_URL` ou `localStorage.api_base_url`
+5. activer GitHub Pages sur la branche `main` via GitHub Actions
+
+Note:
+- le stockage NoSQL JSON reste local au serveur et peut etre reinitialise sur certains redeploiements
+- pour une persistance stricte en production, il faudra ensuite remplacer ce stockage par un vrai service NoSQL
 
 ## LE Compte administrateur  ()
 
@@ -101,6 +129,12 @@ npm run test:e2e
 - Back-end API : `https://vite-gourmand-1.onrender.com/api`
 - Back-end healthcheck : `https://vite-gourmand-1.onrender.com/api/health`
 
+Note importante (Render - offre gratuite) :
+- Le back-end est heberge sur l'offre gratuite de Render.
+- En cas d'inactivite, le service peut se mettre en veille (cold start).
+- Lors du premier acces, il faudra attendre environ 1 minute pour que le serveur redemarre completement.
+- Si l'API ne repond pas immediatement, patienter 60 secondes puis recharger la page.
+
 Fonctionnalites couvertes :
 
 - Authentification et roles (`utilisateur`, `employe`, `admin`)
@@ -112,7 +146,7 @@ Fonctionnalites couvertes :
 
 Le projet respecte la contrainte d'utiliser :
 
-- une base relationnelle : SQLite (`backend/src/db/sqlite.js`)
+- une base relationnelle distante : PostgreSQL (`backend/src/db/postgres.js`)
 - une base NoSQL : store JSON documentaire (`backend/src/db/nosql.js`)
 
 Le choix Node.js/Express est conserve pour la continuite technique, la rapidite de livraison, et les tests E2E en place.

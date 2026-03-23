@@ -1,12 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Connexion – Vite & Gourmand</title><link rel="stylesheet" href="css/style.css"></head>
+<head><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion – Vite & Gourmand</title>
+    <link rel="stylesheet" href="css/style.css"></head>
 <body>
 <a class="skip-link" href="#main-content">Aller au contenu</a>
-<header><nav><ul><li><a href="index.html">Accueil</a></li><li><a href="menus.html">Menus</a></li><li><a href="connexion.html" aria-current="page">Connexion</a></li><li><a href="inscription.html">S'inscrire</a></li><li><a href="contact.html">Contact</a></li></ul></nav></header>
-<main id="main-content"><section class="connexion-section"><h1 class="connexion-title">Connexion</h1><form id="form-connexion" class="connexion-form" autocomplete="on"><div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="email" required></div><div class="form-group"><label for="password">Mot de passe</label><input type="password" id="password" name="password" required minlength="10"></div><button type="submit" class="btn-connexion">Se connecter</button></form><div class="connexion-links"><a href="reset-password.html">Mot de passe oublié ?</a><span style="margin-left:1rem;">Pas de compte ? <a href="inscription.html">S'inscrire</a></span></div><div id="connexion-message" class="connexion-message" style="display:none;"></div></section></main>
-<footer><section><ul><li>Lundi : 8h-20h</li><li>Mardi : 8h-20h</li><li>Mercredi : 8h-20h</li><li>Jeudi : 8h-20h</li><li>Vendredi : 8h-20h</li><li>Samedi : 8h-20h</li><li>Dimanche : 8h-20h</li></ul></section><nav><a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a></nav></footer>
-<script src="js/api.js"></script><script src="js/connexion.js"></script><script src="js/main.js"></script>
+<header>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Accueil</a>
+            </li>
+            <li>
+                <a href="menus.html">Menus</a>
+            </li>
+            <li>
+                <a href="connexion.html" aria-current="page">Connexion</a>
+            </li>
+            <li>
+                <a href="inscription.html">S'inscrire</a>
+            </li>
+            <li>
+                <a href="contact.html">Contact</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="main-content">
+    <section class="connexion-section">
+        <h1 class="connexion-title">Connexion</h1>
+        <form id="form-connexion" class="connexion-form" autocomplete="on">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required minlength="10">
+            </div>
+            <button type="submit" class="btn-connexion">Se connecter</button>
+        </form>
+        <div class="connexion-links">
+            <a href="reset-password.html">Mot de passe oublié ?</a>
+            <span style="margin-left:1rem;">Pas de compte ? <a href="inscription.html">S'inscrire</a></span>
+        </div>
+        <div id="connexion-message" class="connexion-message" style="display:none;"></div>
+    </section>
+</main>
+<footer>
+    <section>
+        <ul>
+            <li>Lundi : 8h-20h</li>
+            <li>Mardi : 8h-20h</li>
+            <li>Mercredi : 8h-20h</li>
+            <li>Jeudi : 8h-20h</li>
+            <li>Vendredi : 8h-20h</li>
+            <li>Samedi : 8h-20h</li>
+            <li>Dimanche : 8h-20h</li>
+        </ul>
+    </section>
+    <nav>
+        <a href="mentions-legales.html">Mentions légales</a> | <a href="cgv.html">CGV</a>
+    </nav>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/connexion.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
 

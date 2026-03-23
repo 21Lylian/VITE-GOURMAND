@@ -2,7 +2,9 @@ const path = require("path");
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
 const PORT = parseInt(process.env.PORT || "3000", 10);
-const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), "backend", "data", "app.sqlite");
+const DATABASE_URL = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/vite_gourmand";
+const DB_SSL = String(process.env.DB_SSL || "false").toLowerCase() === "true";
+const DB_SCHEMA_PATH = process.env.DB_SCHEMA_PATH || "";
 const NOSQL_PATH = process.env.NOSQL_PATH || path.join(process.cwd(), "backend", "data", "orders_stats.json");
 const SMTP_HOST = process.env.SMTP_HOST || "";
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || "587", 10);
@@ -14,7 +16,9 @@ const CONTACT_FROM = process.env.CONTACT_FROM || SMTP_USER || "no-reply@vite-gou
 module.exports = {
   JWT_SECRET,
   PORT,
-  DB_PATH,
+  DATABASE_URL,
+  DB_SSL,
+  DB_SCHEMA_PATH,
   NOSQL_PATH,
   SMTP_HOST,
   SMTP_PORT,

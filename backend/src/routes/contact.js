@@ -1,7 +1,7 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const { db } = require("../db/sqlite");
 const { requireAuth, requireRole } = require("../middleware/auth");
+const contactRepository = require("../repositories/contactRepository");
 const {
   SMTP_HOST,
   SMTP_PORT,
@@ -70,16 +70,17 @@ router.post("/", async (req, res) => {
   const normalizedEmail = String(email).trim().toLowerCase();
   const createdAt = new Date().toISOString();
 
-  const result = db.prepare(`
-    INSERT INTO contacts (title, description, email)
-    VALUES (?, ?, ?)
-  `).run(normalizedTitle, normalizedDescription, normalizedEmail);
+  const created = await contactRepository.createContact({
+    title: normalizedTitle,
+    description: normalizedDescription,
+    email: normalizedEmail
+  });
 
   let emailSent = false;
   let emailWarning = null;
   try {
     emailSent = await sendContactMail({
-      id: result.lastInsertRowid,
+      id: created.id,
       title: normalizedTitle,
       description: normalizedDescription,
       email: normalizedEmail,
@@ -93,7 +94,7 @@ router.post("/", async (req, res) => {
   }
 
   return res.status(201).json({
-    id: result.lastInsertRowid,
+    id: created.id,
     message: emailSent
       ? "Message recu et email de notification envoye."
       : "Message recu.",
@@ -102,12 +103,8 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.get("/", requireAuth, requireRole("employe", "admin"), (_req, res) => {
-  const messages = db.prepare(`
-    SELECT id, title, description, email, created_at
-    FROM contacts
-    ORDER BY id DESC
-  `).all();
+router.get("/", requireAuth, requireRole("employe", "admin"), async (_req, res) => {
+  const messages = await contactRepository.listContacts();
   return res.json(messages);
 });
 

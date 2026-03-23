@@ -1,0 +1,42 @@
+services:
+  - type: web
+    runtime: node
+    name: vite-gourmand-api
+    plan: free
+    region: frankfurt
+    buildCommand: npm install
+    startCommand: npm run start:api
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vite-gourmand-db
+          property: connectionString
+      - key: DB_SSL
+        value: "true"
+      - key: NOSQL_PATH
+        value: /opt/render/project/src/backend/data/orders_stats.json
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: CONTACT_TO
+        sync: false
+      - key: CONTACT_FROM
+        sync: false
+
+databases:
+  - name: vite-gourmand-db
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: "17"
+    databaseName: vite_gourmand

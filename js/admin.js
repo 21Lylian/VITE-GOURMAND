@@ -57,6 +57,8 @@ function renderChart(stats) {
   });
 }
 
+
+
 function renderOrders(orders) {
   const ordersDiv = document.getElementById("admin-orders");
   if (!ordersDiv) return;

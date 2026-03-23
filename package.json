@@ -8,6 +8,8 @@
   },
   "scripts": {
     "start:api": "node backend/src/server.js",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
     "test:e2e": "playwright test tests/front-ecf.spec.js"
   },
   "keywords": [],
@@ -24,6 +26,7 @@
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
-    "nodemailer": "^8.0.1"
+    "nodemailer": "^8.0.1",
+    "pg": "^8.20.0"
   }
 }

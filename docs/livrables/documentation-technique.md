@@ -4,7 +4,7 @@
 - Front: HTML/CSS/JS
 - Back: Node.js + Express
 - Securite: JWT, bcrypt, controle des roles
-- SQL relationnel: SQLite
+- SQL relationnel: PostgreSQL
 - NoSQL: document JSON (stats commandes)
 
 Justification:
@@ -28,7 +28,7 @@ Justification:
   - NoSQL: agregats analytiques commandes
 
 ## 4. Base relationnelle (SQL)
-Fichier: `backend/src/db/sqlite.js`
+Fichier: `backend/src/db/postgres.js`
 
 Tables principales:
 - `users`
@@ -41,6 +41,11 @@ Tables principales:
 - `contacts`
 - `settings`
 - `password_resets`
+
+Architecture backend:
+- `repositories/` pour l'acces aux donnees PostgreSQL
+- `services/` pour les regles metier
+- `routes/` limitees a l'orchestration HTTP
 
 ## 5. Base non relationnelle (NoSQL)
 Fichier: `backend/src/db/nosql.js`

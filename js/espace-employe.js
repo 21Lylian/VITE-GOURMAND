@@ -1,3 +1,4 @@
+// Permet de définir les transitions de statut possibles pour une commande, en fonction du statut actuel et du rôle de l'utilisateur.
 function getStatutLabel(status) {
   const labels = {
     "en-attente": "En attente",
@@ -11,13 +12,13 @@ function getStatutLabel(status) {
   };
   return labels[status] || status;
 }
-
+// Permet de définir les transitions de statut possibles pour une commande, en fonction du statut actuel et du rôle de l'utilisateur.
 const HIDDEN_TEST_CLIENTS = new Set(["test", "2 test", "user test", "user order"]);
 
 function normalizeText(value) {
   return String(value || "").trim().toLowerCase();
 }
-
+// Permet de déterminer si une commande doit être considérée comme un test et donc cachée dans l'interface employé, en se basant sur le nom et l'email du client.
 function isHiddenTestOrder(order) {
   const fullName = normalizeText(`${order.clientPrenom || ""} ${order.clientNom || ""}`);
   const firstName = normalizeText(order.clientPrenom);
@@ -30,14 +31,14 @@ function isHiddenTestOrder(order) {
   if (email.includes(".test.")) return true;
   return false;
 }
-
+// Permet de parser une liste d'allergènes à partir d'une chaîne de caractères, en séparant par des virgules et en nettoyant les espaces.
 function parseAllergenes(text) {
   return (text || "")
     .split(",")
     .map((a) => a.trim())
     .filter(Boolean);
 }
-
+// Permet d'afficher une série de prompts modaux pour saisir les informations d'un plat, avec des valeurs initiales optionnelles pour faciliter la modification.
 async function saisirPlat(initial) {
   const type = await showModalPrompt("Type de plat (Entree/Plat/Dessert)", initial ? initial.type : "");
   if (type === null) return null;
@@ -54,7 +55,7 @@ async function saisirPlat(initial) {
     allergenes: parseAllergenes(allergenesRaw)
   };
 }
-
+// Permet d'afficher une série de prompts modaux pour saisir les informations d'un menu, avec des valeurs initiales optionnelles pour faciliter la modification.
 async function saisirMenu(initial) {
   const titre = await showModalPrompt("Titre du menu", initial ? initial.titre : "");
   if (titre === null) return null;
@@ -86,7 +87,7 @@ async function saisirMenu(initial) {
     images: imagesRaw.split(",").map((x) => x.trim()).filter(Boolean)
   };
 }
-
+// Permet de rafraîchir les indicateurs clés de performance (KPIs) affichés dans l'interface employé, en récupérant les données actuelles des menus, commandes et avis en attente.
 async function refreshKpis() {
   const menus = await window.Api.menus();
   const orders = (await window.Api.listOrders()).filter((o) => !isHiddenTestOrder(o));
@@ -103,7 +104,7 @@ async function refreshKpis() {
   if (kpiAttente) kpiAttente.textContent = String(commandesAttente);
   if (kpiAvis) kpiAvis.textContent = String(pendingReviews.length);
 }
-
+// Code principal qui s'exécute une fois que le DOM est complètement chargé, pour initialiser l'interface employé en fonction de l'utilisateur connecté et des données actuelles.
 document.addEventListener("DOMContentLoaded", async function () {
   const user = window.Api.getUser();
   if (!user) {
@@ -217,6 +218,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await renderMenus();
   });
 
+  // Permet d'afficher les horaires de la semaine dans les champs correspondants, en récupérant les données actuelles via l'API.
   async function renderHoraires() {
     const horaires = await window.Api.getHours();
     document.getElementById("horaire-lundi").value = horaires.lundi || "";
@@ -227,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("horaire-samedi").value = horaires.samedi || "";
     document.getElementById("horaire-dimanche").value = horaires.dimanche || "";
   }
-
+  // Permet de gérer la soumission du formulaire de mise à jour des horaires, en envoyant les données saisies à l'API et en mettant à jour l'affichage localement.
   document.getElementById("form-horaires").addEventListener("submit", async function (e) {
     e.preventDefault();
     const payload = {
@@ -244,7 +246,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.dispatchEvent(new Event("horaires-updated"));
     await showModalConfirm("Horaires mis à jour.");
   });
-
+// Permet de récupérer et d'afficher la liste des commandes dans le tableau de l'interface employé, en appliquant les filtres de statut et de client, et en offrant la possibilité de changer le statut de chaque commande.
   async function renderCommandes() {
     const tbody = document.getElementById("commandes-employe");
     const status = document.getElementById("statut").value || undefined;

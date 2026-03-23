@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const app = require("./app");
 const { PORT } = require("./config");
-const { initDb } = require("./db/sqlite");
+const { initDb } = require("./db/postgres");
 
 async function start() {
   await initDb();

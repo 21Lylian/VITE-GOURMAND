@@ -1,7 +1,4 @@
--- Schéma relationnel minimal pour Vite & Gourmand (exemple)
--- Tables : users, menus, plats, commandes, avis
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   nom VARCHAR(100) NOT NULL,
   prenom VARCHAR(100) NOT NULL,
@@ -10,59 +7,93 @@ CREATE TABLE users (
   role VARCHAR(50) NOT NULL DEFAULT 'utilisateur',
   gsm VARCHAR(30),
   adresse TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  disabled BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE menus (
+CREATE TABLE IF NOT EXISTS menus (
   id SERIAL PRIMARY KEY,
   titre VARCHAR(200) NOT NULL,
-  description TEXT,
-  prix NUMERIC(8,2) NOT NULL,
-  theme VARCHAR(100),
-  regime VARCHAR(100),
-  nb_personnes_min INTEGER NOT NULL DEFAULT 1,
-  conditions TEXT,
-  stock INTEGER DEFAULT 0
+  description TEXT NOT NULL,
+  prix NUMERIC(10, 2) NOT NULL,
+  theme VARCHAR(100) NOT NULL,
+  regime VARCHAR(100) NOT NULL,
+  nb_personnes_min INTEGER NOT NULL,
+  conditions_text TEXT NOT NULL,
+  stock INTEGER NOT NULL DEFAULT 0,
+  images_json JSONB NOT NULL DEFAULT '[]'::jsonb
 );
 
-CREATE TABLE plats (
+CREATE TABLE IF NOT EXISTS dishes (
   id SERIAL PRIMARY KEY,
+  type VARCHAR(100) NOT NULL,
   nom VARCHAR(200) NOT NULL,
-  allergenes TEXT,
-  UNIQUE(nom)
+  allergenes_json JSONB NOT NULL DEFAULT '[]'::jsonb
 );
 
--- association menu <-> plat (plusieurs menus peuvent partager un plat)
-CREATE TABLE menu_plats (
-  menu_id INTEGER REFERENCES menus(id) ON DELETE CASCADE,
-  plat_id INTEGER REFERENCES plats(id) ON DELETE CASCADE,
-  ordre INTEGER DEFAULT 0,
-  PRIMARY KEY (menu_id, plat_id)
+CREATE TABLE IF NOT EXISTS menu_dishes (
+  menu_id INTEGER NOT NULL REFERENCES menus(id) ON DELETE CASCADE,
+  dish_id INTEGER NOT NULL REFERENCES dishes(id) ON DELETE CASCADE,
+  PRIMARY KEY (menu_id, dish_id)
 );
 
-CREATE TABLE commandes (
+CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  menu_id INTEGER REFERENCES menus(id),
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  menu_id INTEGER NOT NULL REFERENCES menus(id),
   nb_personnes INTEGER NOT NULL,
-  prix_total NUMERIC(10,2) NOT NULL,
-  frais_livraison NUMERIC(8,2) DEFAULT 0,
-  statut VARCHAR(100) DEFAULT 'en-attente',
-  historique JSONB DEFAULT '[]'::jsonb,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  client_nom VARCHAR(100) NOT NULL,
+  client_prenom VARCHAR(100) NOT NULL,
+  client_email VARCHAR(200) NOT NULL,
+  client_gsm VARCHAR(30) NOT NULL,
+  adresse TEXT NOT NULL,
+  ville VARCHAR(100) NOT NULL,
+  km NUMERIC(10, 2) NOT NULL DEFAULT 0,
+  date_prestation DATE NOT NULL,
+  heure_prestation VARCHAR(20) NOT NULL,
+  statut VARCHAR(50) NOT NULL DEFAULT 'en-attente',
+  remise NUMERIC(10, 2) NOT NULL DEFAULT 0,
+  frais_livraison NUMERIC(10, 2) NOT NULL DEFAULT 0,
+  total NUMERIC(10, 2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE avis (
+CREATE TABLE IF NOT EXISTS order_history (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  note INTEGER CHECK (note >= 1 AND note <= 5),
-  commentaire TEXT,
-  valide BOOLEAN DEFAULT false,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  status VARCHAR(50) NOT NULL,
+  note TEXT,
+  changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Fixtures minimal (exemple)
-INSERT INTO users (nom, prenom, email, password_hash, role) VALUES ('Demo','User','demo@example.com','$2y$...','utilisateur');
-INSERT INTO menus (titre, description, prix, theme, regime, nb_personnes_min, conditions, stock) VALUES
-('Menu Noël','Menu festif',35.00,'noel','classique',4,'Commande 3 jours',5),
-('Menu Vegan','Menu végétal',28.00,'classique','vegan',2,'Commande 2 jours',2);
+CREATE TABLE IF NOT EXISTS reviews (
+  id SERIAL PRIMARY KEY,
+  order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  note INTEGER NOT NULL CHECK (note >= 1 AND note <= 5),
+  commentaire TEXT,
+  valide BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contacts (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  description TEXT NOT NULL,
+  email VARCHAR(200) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+  key VARCHAR(100) PRIMARY KEY,
+  value_json JSONB NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS password_resets (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token UUID NOT NULL UNIQUE,
+  expires_at TIMESTAMP NOT NULL,
+  used BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
