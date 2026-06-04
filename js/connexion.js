@@ -1,13 +1,17 @@
+// Role du fichier : page de connexion utilisateur.
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("form-connexion");
   const message = document.getElementById("connexion-message");
 
+  // Role : fonction getDefaultRedirectForRole pour isoler une action reutilisable.
   function getDefaultRedirectForRole(role) {
     if (role === "admin") return "espace-admin.html";
     if (role === "employe") return "espace-employe.html";
     return "espace-utilisateur.html";
   }
 
+  // Role : fonction showMessage pour isoler une action reutilisable.
   function showMessage(text, ok) {
     message.textContent = text;
     message.style.display = "block";
@@ -27,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const next = params.get("next");
       const roleRedirect = getDefaultRedirectForRole(result.user && result.user.role);
       setTimeout(() => {
+        // Role : redirige l utilisateur vers une autre page.
         window.location = next || roleRedirect;
       }, 600);
     } catch (err) {

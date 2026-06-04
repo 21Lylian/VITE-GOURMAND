@@ -1,6 +1,8 @@
+// Role du fichier : logique metier admin pour les comptes employes.
 const userRepository = require("../repositories/userRepository");
 const { isStrongPassword, hashPassword } = require("../utils/password");
 
+// Role : fonction createEmployee pour isoler une action reutilisable.
 async function createEmployee(payload) {
   const { email, password } = payload || {};
   if (!email || !password) return { status: 400, body: { error: "Email et mot de passe requis." } };
@@ -18,16 +20,19 @@ async function createEmployee(payload) {
   return { status: 201, body: { id: employee.id, email: employee.email, role: employee.role } };
 }
 
+// Role : fonction setEmployeeDisabled pour isoler une action reutilisable.
 async function setEmployeeDisabled(id, disabled) {
   const employee = await userRepository.setEmployeeDisabled(id, Boolean(disabled));
   if (!employee) return { status: 404, body: { error: "Employe introuvable." } };
   return { status: 200, body: employee };
 }
 
+// Role : fonction listEmployees pour isoler une action reutilisable.
 async function listEmployees() {
   return { status: 200, body: await userRepository.listEmployees() };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   createEmployee,
   setEmployeeDisabled,

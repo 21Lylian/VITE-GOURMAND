@@ -1,9 +1,11 @@
+// Role du fichier : logique metier des commandes, prix, stock et statuts.
 const menuRepository = require("../repositories/menuRepository");
 const orderRepository = require("../repositories/orderRepository");
 const { withTransaction } = require("../db/postgres");
 const { calculateOrderPrice } = require("../utils/pricing");
 const { isAllowedStaffTransition } = require("../utils/statusRules");
 
+// Role : fonction serializeOrder pour isoler une action reutilisable.
 async function serializeOrder(order) {
   return {
     id: order.id,
@@ -28,6 +30,7 @@ async function serializeOrder(order) {
   };
 }
 
+// Role : fonction createOrder pour isoler une action reutilisable.
 async function createOrder(currentUser, payload) {
   const { menuId, nbPersonnes, clientNom, clientPrenom, clientEmail, clientGSM, adresse, ville, km = 0, date, heure } = payload || {};
   if (!menuId || !nbPersonnes || !clientNom || !clientPrenom || !clientEmail || !clientGSM || !adresse || !ville || !date || !heure) {
@@ -70,6 +73,7 @@ async function createOrder(currentUser, payload) {
   return { status: 201, body: await serializeOrder(order) };
 }
 
+// Role : fonction listOrders pour isoler une action reutilisable.
 async function listOrders(currentUser, filters) {
   const rows = await orderRepository.findMany({
     user: currentUser,
@@ -83,6 +87,7 @@ async function listOrders(currentUser, filters) {
   return { status: 200, body: serialized };
 }
 
+// Role : fonction updateOrder pour isoler une action reutilisable.
 async function updateOrder(currentUser, orderId, payload) {
   const order = await orderRepository.findById(orderId);
   if (!order) return { status: 404, body: { error: "Commande introuvable." } };
@@ -178,6 +183,7 @@ async function updateOrder(currentUser, orderId, payload) {
   return { status: 200, body: await serializeOrder(updated) };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   createOrder,
   listOrders,

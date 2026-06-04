@@ -1,3 +1,4 @@
+// Role du fichier : comportements globaux du site public.
 const DEFAULT_HORAIRES = {
   lundi: "8h-20h",
   mardi: "8h-20h",
@@ -8,12 +9,14 @@ const DEFAULT_HORAIRES = {
   dimanche: "8h-20h"
 };
 
+// Role : fonction getHoraires pour isoler une action reutilisable.
 function getHoraires() {
   const horaires = JSON.parse(localStorage.getItem("horaires") || "null");
   if (!horaires) return Object.assign({}, DEFAULT_HORAIRES);
   return Object.assign({}, DEFAULT_HORAIRES, horaires);
 }
 
+// Role : fonction appliquerHorairesFooter pour isoler une action reutilisable.
 function appliquerHorairesFooter() {
   const footer = document.querySelector("footer");
   if (!footer) return;
@@ -35,6 +38,7 @@ function appliquerHorairesFooter() {
   });
 }
 
+// Role : fonction appliquerAccessibiliteGlobale pour isoler une action reutilisable.
 function appliquerAccessibiliteGlobale() {
   if (!document.documentElement.lang) {
     document.documentElement.lang = "fr";
@@ -85,6 +89,7 @@ function appliquerAccessibiliteGlobale() {
   });
 }
 
+// Role : fonction syncHorairesFromApi pour isoler une action reutilisable.
 async function syncHorairesFromApi() {
   if (!window.Api) return;
   try {
@@ -97,6 +102,7 @@ async function syncHorairesFromApi() {
   }
 }
 
+// Role : fonction renderValidatedReviewsFromApi pour isoler une action reutilisable.
 async function renderValidatedReviewsFromApi() {
   const avisList = document.getElementById("avis-clients");
   if (!avisList || !window.Api) return;
@@ -120,6 +126,7 @@ async function renderValidatedReviewsFromApi() {
   }
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   appliquerAccessibiliteGlobale();
   await syncHorairesFromApi();
@@ -143,9 +150,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   await renderValidatedReviewsFromApi();
 });
 
+// Role : ecoute un evenement global du navigateur.
 window.addEventListener("storage", function (e) {
   if (e.key === "horaires") appliquerHorairesFooter();
 });
 
+// Role : ecoute un evenement global du navigateur.
 window.addEventListener("horaires-updated", appliquerHorairesFooter);
 

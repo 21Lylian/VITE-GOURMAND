@@ -1,4 +1,6 @@
+// Role du fichier : modales accessibles de confirmation et saisie.
 (function(){
+  // Role : fonction createModal pour isoler une action reutilisable.
   function createModal(title, contentNode, buttons){
     return new Promise(resolve => {
       const overlay = document.createElement('div'); overlay.className='modal-overlay'; overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
@@ -23,6 +25,7 @@
     });
   }
 
+  // Role : expose showModalPrompt pour les autres scripts front-end.
   window.showModalPrompt = function(message, placeholder){
     const wrapper = document.createElement('div');
     const p = document.createElement('p'); p.textContent = message; wrapper.appendChild(p);
@@ -33,6 +36,7 @@
     ]);
   };
 
+  // Role : expose showModalConfirm pour les autres scripts front-end.
   window.showModalConfirm = function(message){
     const wrapper = document.createElement('div'); const p = document.createElement('p'); p.textContent = message; wrapper.appendChild(p);
     return createModal('Confirmer', wrapper, [

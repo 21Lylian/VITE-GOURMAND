@@ -1,3 +1,4 @@
+// Role du fichier : stockage JSON local pour les statistiques de commandes.
 const fs = require("fs");
 const path = require("path");
 const { NOSQL_PATH } = require("../config");
@@ -7,12 +8,14 @@ if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
+// Role : fonction ensureStore pour isoler une action reutilisable.
 function ensureStore() {
   if (!fs.existsSync(NOSQL_PATH)) {
     fs.writeFileSync(NOSQL_PATH, JSON.stringify({ orders: [] }, null, 2), "utf8");
   }
 }
 
+// Role : fonction readStore pour isoler une action reutilisable.
 function readStore() {
   ensureStore();
   const raw = fs.readFileSync(NOSQL_PATH, "utf8");
@@ -29,10 +32,12 @@ function readStore() {
   return { orders };
 }
 
+// Role : fonction writeStore pour isoler une action reutilisable.
 function writeStore(store) {
   fs.writeFileSync(NOSQL_PATH, JSON.stringify(store, null, 2), "utf8");
 }
 
+// Role : fonction upsertOrderDoc pour isoler une action reutilisable.
 function upsertOrderDoc(order) {
   const store = readStore();
   const idx = store.orders.findIndex((o) => o.orderId === order.id);
@@ -49,6 +54,7 @@ function upsertOrderDoc(order) {
   writeStore(store);
 }
 
+// Role : fonction getOrderStats pour isoler une action reutilisable.
 function getOrderStats({ menuId, dateFrom, dateTo }) {
   const store = readStore();
   const filtered = store.orders.filter((o) => {
@@ -70,6 +76,7 @@ function getOrderStats({ menuId, dateFrom, dateTo }) {
   return Object.values(byMenu);
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   upsertOrderDoc,
   getOrderStats

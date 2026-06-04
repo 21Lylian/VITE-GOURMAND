@@ -1,7 +1,9 @@
+// Role du fichier : client API front-end et gestion de session navigateur.
 (function () {
   const DEFAULT_API_BASE = "https://vite-gourmand-1.onrender.com/api";
   const STORAGE_KEY = "auth_session";
 
+  // Role : fonction isValidApiBase pour isoler une action reutilisable.
   function isValidApiBase(value) {
     if (!value || typeof value !== "string") return false;
     try {
@@ -12,12 +14,14 @@
     }
   }
 
+  // Role : fonction computeAutoApiBase pour isoler une action reutilisable.
   function computeAutoApiBase() {
     const host = window.location.hostname || "localhost";
     if (host !== "localhost" && host !== "127.0.0.1") return null;
     return `${window.location.protocol || "http:"}//${host}:3000/api`;
   }
 
+  // Role : fonction getApiBase pour isoler une action reutilisable.
   function getApiBase() {
     if (isValidApiBase(window.API_BASE_URL)) return window.API_BASE_URL;
     const stored = localStorage.getItem("api_base_url");
@@ -27,6 +31,7 @@
     return DEFAULT_API_BASE;
   }
 
+  // Role : fonction getSession pour isoler une action reutilisable.
   function getSession() {
     try {
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
@@ -35,24 +40,29 @@
     }
   }
 
+  // Role : fonction setSession pour isoler une action reutilisable.
   function setSession(token, user) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ token, user }));
   }
 
+  // Role : fonction clearSession pour isoler une action reutilisable.
   function clearSession() {
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  // Role : fonction getToken pour isoler une action reutilisable.
   function getToken() {
     const session = getSession();
     return session ? session.token : null;
   }
 
+  // Role : fonction getUser pour isoler une action reutilisable.
   function getUser() {
     const session = getSession();
     return session ? session.user : null;
   }
 
+  // Role : fonction authHeaders pour isoler une action reutilisable.
   function authHeaders(extra) {
     const token = getToken();
     const headers = Object.assign({}, extra || {});
@@ -60,6 +70,7 @@
     return headers;
   }
 
+  // Role : fonction toQueryString pour isoler une action reutilisable.
   function toQueryString(query) {
     const q = new URLSearchParams();
     Object.entries(query || {}).forEach(([key, value]) => {
@@ -69,6 +80,7 @@
     return q.toString();
   }
 
+  // Role : fonction request pour isoler une action reutilisable.
   async function request(path, options) {
     const opts = Object.assign({ method: "GET", headers: {} }, options || {});
     const url = `${getApiBase()}${path}`;
@@ -88,6 +100,7 @@
     return body;
   }
 
+  // Role : regroupe toutes les methodes d appel API exposees au front-end.
   const Api = {
     getApiBase,
     getSession,
@@ -206,5 +219,6 @@
     }
   };
 
+  // Role : expose Api pour les autres scripts front-end.
   window.Api = Api;
 })();

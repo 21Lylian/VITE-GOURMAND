@@ -1,3 +1,5 @@
+// Role du fichier : liste et filtres des menus.
+// Role : fonction afficherMenus pour isoler une action reutilisable.
 function afficherMenus(menus) {
   const liste = document.getElementById("liste-menus");
   if (!liste) return;
@@ -24,12 +26,14 @@ function afficherMenus(menus) {
     `;
 
     div.querySelector("button").addEventListener("click", function () {
+      // Role : redirige l utilisateur vers une autre page.
       window.location = `menu-detail.html?id=${menu.id}`;
     });
     liste.appendChild(div);
   });
 }
 
+// Role : fonction getFiltres pour isoler une action reutilisable.
 function getFiltres() {
   const prixMinRaw = document.getElementById("prix-min").value;
   const prixMaxRaw = document.getElementById("prix-max").value;
@@ -43,6 +47,7 @@ function getFiltres() {
   };
 }
 
+// Role : fonction filtrerMenusLocaux pour isoler une action reutilisable.
 function filtrerMenusLocaux(menus, filtres) {
   return (menus || []).filter((m) => {
     if (filtres.prixMin !== undefined && Number(m.prix) < filtres.prixMin) return false;
@@ -54,6 +59,7 @@ function filtrerMenusLocaux(menus, filtres) {
   });
 }
 
+// Role : fonction chargerMenus pour isoler une action reutilisable.
 async function chargerMenus() {
   const filtres = getFiltres();
   try {
@@ -71,6 +77,7 @@ async function chargerMenus() {
   }
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   chargerMenus();
   const form = document.getElementById("form-filtres");

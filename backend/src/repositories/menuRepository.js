@@ -1,5 +1,7 @@
+// Role du fichier : acces base de donnees pour les menus et plats.
 const { one, many, query } = require("../db/postgres");
 
+// Role : fonction parseJson pour isoler une action reutilisable.
 function parseJson(value, fallback = []) {
   if (value === null || value === undefined) return fallback;
   if (typeof value === "string") {
@@ -12,6 +14,7 @@ function parseJson(value, fallback = []) {
   return value;
 }
 
+// Role : fonction mapMenu pour isoler une action reutilisable.
 function mapMenu(row) {
   if (!row) return null;
   return {
@@ -28,6 +31,7 @@ function mapMenu(row) {
   };
 }
 
+// Role : fonction findAll pour isoler une action reutilisable.
 async function findAll(filters = {}, client = null) {
   const conditions = [];
   const values = [];
@@ -65,6 +69,7 @@ async function findAll(filters = {}, client = null) {
   return rows.map(mapMenu);
 }
 
+// Role : fonction findById pour isoler une action reutilisable.
 async function findById(id, client = null) {
   const row = await one(`
     SELECT id, titre, description, prix, theme, regime, nb_personnes_min, conditions_text, stock, images_json
@@ -74,6 +79,7 @@ async function findById(id, client = null) {
   return mapMenu(row);
 }
 
+// Role : fonction findMenuForOrder pour isoler une action reutilisable.
 async function findMenuForOrder(id, client = null) {
   const row = await one(`
     SELECT id, titre, prix, nb_personnes_min, stock
@@ -89,6 +95,7 @@ async function findMenuForOrder(id, client = null) {
   } : null;
 }
 
+// Role : fonction findDishesByMenuId pour isoler une action reutilisable.
 async function findDishesByMenuId(menuId, client = null) {
   const rows = await many(`
     SELECT d.id, d.type, d.nom, d.allergenes_json
@@ -105,6 +112,7 @@ async function findDishesByMenuId(menuId, client = null) {
   }));
 }
 
+// Role : fonction replaceMenuDishes pour isoler une action reutilisable.
 async function replaceMenuDishes(menuId, dishes, client = null) {
   await query("DELETE FROM menu_dishes WHERE menu_id = $1", [menuId], client);
   for (const dish of dishes) {
@@ -117,6 +125,7 @@ async function replaceMenuDishes(menuId, dishes, client = null) {
   }
 }
 
+// Role : fonction createMenu pour isoler une action reutilisable.
 async function createMenu(menu, client = null) {
   const row = await one(`
     INSERT INTO menus (titre, description, prix, theme, regime, nb_personnes_min, conditions_text, stock, images_json)
@@ -136,6 +145,7 @@ async function createMenu(menu, client = null) {
   return row.id;
 }
 
+// Role : fonction updateMenu pour isoler une action reutilisable.
 async function updateMenu(menuId, menu, client = null) {
   await query(`
     UPDATE menus
@@ -156,6 +166,7 @@ async function updateMenu(menuId, menu, client = null) {
   ], client);
 }
 
+// Role : fonction deleteMenu pour isoler une action reutilisable.
 async function deleteMenu(menuId, client = null) {
   await query("DELETE FROM menu_dishes WHERE menu_id = $1", [menuId], client);
   await query("DELETE FROM menus WHERE id = $1", [menuId], client);
@@ -170,6 +181,7 @@ async function deleteMenu(menuId, client = null) {
   `, [], client);
 }
 
+// Role : fonction countOrdersByMenu pour isoler une action reutilisable.
 async function countOrdersByMenu(menuId, onlyActive = false, client = null) {
   const disallowed = onlyActive ? "AND statut NOT IN ('annule', 'terminee')" : "";
   const row = await one(`
@@ -181,14 +193,17 @@ async function countOrdersByMenu(menuId, onlyActive = false, client = null) {
   return row ? row.count : 0;
 }
 
+// Role : fonction increaseStock pour isoler une action reutilisable.
 async function increaseStock(menuId, amount = 1, client = null) {
   await query("UPDATE menus SET stock = stock + $1 WHERE id = $2", [amount, menuId], client);
 }
 
+// Role : fonction decreaseStock pour isoler une action reutilisable.
 async function decreaseStock(menuId, amount = 1, client = null) {
   await query("UPDATE menus SET stock = stock - $1 WHERE id = $2", [amount, menuId], client);
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   findAll,
   findById,

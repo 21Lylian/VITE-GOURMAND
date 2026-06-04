@@ -1,3 +1,5 @@
+// Role du fichier : demande et confirmation de reinitialisation du mot de passe.
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("form-reset-mdp");
   const confirmForm = document.getElementById("form-reset-confirm");
@@ -5,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tokenInput = document.getElementById("reset-token");
   const newPasswordInput = document.getElementById("new-password");
 
+  // Role : fonction validatePassword pour isoler une action reutilisable.
   function validatePassword(p) {
     return /(?=.{10,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(p || "");
   }

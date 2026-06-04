@@ -1,8 +1,10 @@
+// Role du fichier : logique metier des menus et plats.
 const { withTransaction } = require("../db/postgres");
 const menuRepository = require("../repositories/menuRepository");
 const orderRepository = require("../repositories/orderRepository");
 const reviewRepository = require("../repositories/reviewRepository");
 
+// Role : fonction normalizeMenuInput pour isoler une action reutilisable.
 function normalizeMenuInput(payload) {
   const {
     titre,
@@ -42,6 +44,7 @@ function normalizeMenuInput(payload) {
   };
 }
 
+// Role : fonction serializeMenu pour isoler une action reutilisable.
 function serializeMenu(row) {
   return {
     id: row.id,
@@ -57,11 +60,13 @@ function serializeMenu(row) {
   };
 }
 
+// Role : fonction listMenus pour isoler une action reutilisable.
 async function listMenus(filters) {
   const rows = await menuRepository.findAll(filters);
   return { status: 200, body: rows.map(serializeMenu) };
 }
 
+// Role : fonction getMenuById pour isoler une action reutilisable.
 async function getMenuById(id) {
   const row = await menuRepository.findById(id);
   if (!row) return { status: 404, body: { error: "Menu introuvable." } };
@@ -69,6 +74,7 @@ async function getMenuById(id) {
   return { status: 200, body: { ...serializeMenu(row), plats: dishes } };
 }
 
+// Role : fonction createMenu pour isoler une action reutilisable.
 async function createMenu(payload) {
   const parsed = normalizeMenuInput(payload);
   if (parsed.error) return { status: 400, body: { error: parsed.error } };
@@ -84,6 +90,7 @@ async function createMenu(payload) {
   return { status: 201, body: { id } };
 }
 
+// Role : fonction updateMenu pour isoler une action reutilisable.
 async function updateMenu(menuId, payload) {
   const parsed = normalizeMenuInput(payload);
   if (parsed.error) return { status: 400, body: { error: parsed.error } };
@@ -97,6 +104,7 @@ async function updateMenu(menuId, payload) {
   return { status: 200, body: { ok: true } };
 }
 
+// Role : fonction deleteMenu pour isoler une action reutilisable.
 async function deleteMenu(menuId, force, currentUser) {
   const activeOrdersCount = await menuRepository.countOrdersByMenu(menuId, true);
   const allOrdersCount = await menuRepository.countOrdersByMenu(menuId, false);
@@ -124,6 +132,7 @@ async function deleteMenu(menuId, force, currentUser) {
   return { status: 200, body: { ok: true, forced: force } };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   listMenus,
   getMenuById,

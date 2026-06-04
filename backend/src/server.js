@@ -1,9 +1,11 @@
+// Role du fichier : demarrage du serveur HTTP apres initialisation de la base.
 require("dotenv").config();
 
 const app = require("./app");
 const { PORT } = require("./config");
 const { initDb } = require("./db/postgres");
 
+// Role : fonction start pour isoler une action reutilisable.
 async function start() {
   await initDb();
   app.listen(PORT, () => {

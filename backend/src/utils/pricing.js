@@ -1,3 +1,5 @@
+// Role du fichier : calcul du prix total d une commande.
+// Role : fonction calculateOrderPrice pour isoler une action reutilisable.
 function calculateOrderPrice(menu, nbPersonnes, city, km) {
   const ratio = nbPersonnes / menu.nb_personnes_min;
   const menuGross = menu.prix * ratio;
@@ -15,5 +17,6 @@ function calculateOrderPrice(menu, nbPersonnes, city, km) {
   };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = { calculateOrderPrice };
 

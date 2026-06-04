@@ -1,5 +1,7 @@
+// Role du fichier : acces base de donnees pour utilisateurs, employes et resets de mot de passe.
 const { one, many, query } = require("../db/postgres");
 
+// Role : fonction mapUser pour isoler une action reutilisable.
 function mapUser(row) {
   if (!row) return null;
   return {
@@ -16,6 +18,7 @@ function mapUser(row) {
   };
 }
 
+// Role : fonction findByEmail pour isoler une action reutilisable.
 async function findByEmail(email, client = null) {
   const row = await one(`
     SELECT id, nom, prenom, email, role, gsm, adresse, disabled, created_at, password_hash
@@ -25,6 +28,7 @@ async function findByEmail(email, client = null) {
   return mapUser(row);
 }
 
+// Role : fonction findById pour isoler une action reutilisable.
 async function findById(id, client = null) {
   const row = await one(`
     SELECT id, nom, prenom, email, role, gsm, adresse, disabled, created_at
@@ -34,6 +38,7 @@ async function findById(id, client = null) {
   return mapUser(row);
 }
 
+// Role : fonction createUser pour isoler une action reutilisable.
 async function createUser(data, client = null) {
   const row = await one(`
     INSERT INTO users (nom, prenom, email, password_hash, role, gsm, adresse, disabled)
@@ -43,6 +48,7 @@ async function createUser(data, client = null) {
   return mapUser(row);
 }
 
+// Role : fonction updateProfile pour isoler une action reutilisable.
 async function updateProfile(id, payload, client = null) {
   const fields = [];
   const values = [];
@@ -68,6 +74,7 @@ async function updateProfile(id, payload, client = null) {
   return mapUser(row);
 }
 
+// Role : fonction createPasswordReset pour isoler une action reutilisable.
 async function createPasswordReset(userId, token, expiresAt, client = null) {
   return one(`
     INSERT INTO password_resets (user_id, token, expires_at, used)
@@ -76,6 +83,7 @@ async function createPasswordReset(userId, token, expiresAt, client = null) {
   `, [userId, token, expiresAt], client);
 }
 
+// Role : fonction findPasswordResetByToken pour isoler une action reutilisable.
 async function findPasswordResetByToken(token, client = null) {
   return one(`
     SELECT id, user_id, token, expires_at, used, created_at
@@ -84,14 +92,17 @@ async function findPasswordResetByToken(token, client = null) {
   `, [token], client);
 }
 
+// Role : fonction markPasswordResetUsed pour isoler une action reutilisable.
 async function markPasswordResetUsed(id, client = null) {
   await query("UPDATE password_resets SET used = true WHERE id = $1", [id], client);
 }
 
+// Role : fonction updatePassword pour isoler une action reutilisable.
 async function updatePassword(id, passwordHash, client = null) {
   await query("UPDATE users SET password_hash = $1 WHERE id = $2", [passwordHash, id], client);
 }
 
+// Role : fonction createEmployee pour isoler une action reutilisable.
 async function createEmployee(email, passwordHash, client = null) {
   const row = await one(`
     INSERT INTO users (nom, prenom, email, password_hash, role, gsm, adresse, disabled)
@@ -101,6 +112,7 @@ async function createEmployee(email, passwordHash, client = null) {
   return row;
 }
 
+// Role : fonction setEmployeeDisabled pour isoler une action reutilisable.
 async function setEmployeeDisabled(id, disabled, client = null) {
   const row = await one(`
     UPDATE users
@@ -111,6 +123,7 @@ async function setEmployeeDisabled(id, disabled, client = null) {
   return row;
 }
 
+// Role : fonction listEmployees pour isoler une action reutilisable.
 async function listEmployees(client = null) {
   return many(`
     SELECT id, email, role, disabled, created_at
@@ -120,6 +133,7 @@ async function listEmployees(client = null) {
   `, [], client);
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   findByEmail,
   findById,

@@ -1,11 +1,15 @@
+// Role du fichier : espace administrateur front-end.
+// Role : fonction validatePassword pour isoler une action reutilisable.
 function validatePassword(p) {
   return /(?=.{10,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(p || "");
 }
 
+// Role : fonction notify pour isoler une action reutilisable.
 async function notify(message) {
   await showModalConfirm(message);
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   const currentUser = window.Api.getUser();
   if (!currentUser || currentUser.role !== "admin") {
@@ -21,6 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const ctx = canvas.getContext("2d");
   const caDiv = document.getElementById("chiffre-affaires");
 
+  // Role : fonction refreshAdminKpis pour isoler une action reutilisable.
   async function refreshAdminKpis(stats) {
     const employes = await window.Api.adminEmployees();
     const menus = await window.Api.menus();
@@ -37,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (kpiCaTotal) kpiCaTotal.textContent = `${caTotal.toFixed(2)} EUR`;
   }
 
+  // Role : fonction afficherEmployes pour isoler une action reutilisable.
   async function afficherEmployes() {
     const employes = await window.Api.adminEmployees();
     if (employes.length === 0) {
@@ -92,6 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const menus = await window.Api.menus();
   filtreMenu.innerHTML = `<option value="">Tous les menus</option>${menus.map((m) => `<option value="${m.id}">${m.titre}</option>`).join("")}`;
 
+  // Role : fonction drawBars pour isoler une action reutilisable.
   function drawBars(data) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (data.length === 0) {
@@ -116,6 +123,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  // Role : fonction appliquerStats pour isoler une action reutilisable.
   async function appliquerStats() {
     const menuId = filtreMenu.value || undefined;
     const dateFrom = document.getElementById("date-debut").value || undefined;

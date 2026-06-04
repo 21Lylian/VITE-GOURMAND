@@ -1,9 +1,11 @@
+// Role du fichier : logique metier authentification et tokens.
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const userRepository = require("../repositories/userRepository");
 const { JWT_SECRET } = require("../config");
 const { isStrongPassword, hashPassword, verifyPassword } = require("../utils/password");
 
+// Role : fonction sanitizeUser pour isoler une action reutilisable.
 function sanitizeUser(user) {
   if (!user) return null;
   return {
@@ -19,6 +21,7 @@ function sanitizeUser(user) {
   };
 }
 
+// Role : fonction register pour isoler une action reutilisable.
 async function register(payload) {
   const { nom, prenom, email, password, gsm = "", adresse = "" } = payload || {};
   if (!nom || !prenom || !email || !password) {
@@ -47,6 +50,7 @@ async function register(payload) {
   return { status: 201, body: { user: sanitizeUser(user), message: "Inscription reussie." } };
 }
 
+// Role : fonction login pour isoler une action reutilisable.
 async function login(payload) {
   const { email, password } = payload || {};
   if (!email || !password) {
@@ -68,6 +72,7 @@ async function login(payload) {
   return { status: 200, body: { token, user: sanitizeUser(user) } };
 }
 
+// Role : fonction requestPasswordReset pour isoler une action reutilisable.
 async function requestPasswordReset(payload) {
   const { email } = payload || {};
   if (!email) return { status: 400, body: { error: "Email requis." } };
@@ -80,6 +85,7 @@ async function requestPasswordReset(payload) {
   return { status: 200, body: { ok: true, resetToken: token, expiresAt } };
 }
 
+// Role : fonction confirmPasswordReset pour isoler une action reutilisable.
 async function confirmPasswordReset(payload) {
   const { token, password } = payload || {};
   if (!token || !password) return { status: 400, body: { error: "Token et mot de passe requis." } };
@@ -97,6 +103,7 @@ async function confirmPasswordReset(payload) {
   return { status: 200, body: { ok: true, message: "Mot de passe mis a jour." } };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   register,
   login,

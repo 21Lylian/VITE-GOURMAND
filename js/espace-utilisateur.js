@@ -1,9 +1,12 @@
+// Role du fichier : espace personnel utilisateur et suivi des commandes.
+// Role : fonction formatOrderHistory pour isoler une action reutilisable.
 function formatOrderHistory(order) {
   return (order.history || [])
     .map((h) => `${h.at} - ${h.status}${h.note ? ` - ${h.note}` : ""}`)
     .join("\n");
 }
 
+// Role : fonction setSessionUser pour isoler une action reutilisable.
 function setSessionUser(user) {
   const session = window.Api.getSession();
   if (!session) return;
@@ -17,6 +20,7 @@ function setSessionUser(user) {
   });
 }
 
+// Role : fonction renderMesAvis pour isoler une action reutilisable.
 function renderMesAvis(container, avis) {
   if (!container) return;
   if (!avis.length) {
@@ -38,6 +42,7 @@ function renderMesAvis(container, avis) {
   }).join("");
 }
 
+// Role : fonction updateKpis pour isoler une action reutilisable.
 function updateKpis(orders, reviews) {
   const total = orders.length;
   const enAttente = orders.filter((o) => (o.status || "en-attente") === "en-attente").length;
@@ -54,9 +59,11 @@ function updateKpis(orders, reviews) {
   if (elAvis) elAvis.textContent = String(reviews.length);
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   const sessionUser = window.Api.getUser();
   if (!sessionUser) {
+    // Role : redirige l utilisateur vers une autre page.
     window.location = "connexion.html?next=espace-utilisateur.html";
     return;
   }
@@ -76,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const btnModifierMdp = document.getElementById("btn-modifier-mdp");
   if (btnModifierMdp) {
     btnModifierMdp.addEventListener("click", function () {
+      // Role : redirige l utilisateur vers une autre page.
       window.location = "reset-password.html";
     });
   }
@@ -98,6 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }, 2000);
   });
 
+  // Role : fonction refresh pour isoler une action reutilisable.
   async function refresh() {
     const tbody = document.querySelector("#table-commandes-utilisateur tbody");
     const orders = await window.Api.listOrders();

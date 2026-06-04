@@ -1,3 +1,4 @@
+// Role du fichier : regles back-end de transition des statuts de commande.
 const ORDER_STATUS = {
   PENDING: "en-attente",
   ACCEPTED: "accepte",
@@ -20,11 +21,13 @@ const STAFF_TRANSITIONS = {
   [ORDER_STATUS.CANCELED]: []
 };
 
+// Role : fonction isAllowedStaffTransition pour isoler une action reutilisable.
 function isAllowedStaffTransition(fromStatus, toStatus) {
   if (!STAFF_TRANSITIONS[fromStatus]) return false;
   return STAFF_TRANSITIONS[fromStatus].includes(toStatus);
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   ORDER_STATUS,
   isAllowedStaffTransition

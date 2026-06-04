@@ -1,3 +1,5 @@
+// Role du fichier : creation de compte utilisateur.
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("form-inscription");
   const msg = document.getElementById("inscription-message");
@@ -7,10 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  // Role : fonction validatePassword pour isoler une action reutilisable.
   function validatePassword(p) {
     return /(?=.{10,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(p);
   }
 
+  // Role : fonction showMessage pour isoler une action reutilisable.
   function showMessage(text, ok) {
     msg.textContent = text;
     msg.style.display = "block";
@@ -43,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.Api.setSession(login.token, login.user);
       showMessage(`Inscription reussie !`, true);
       setTimeout(() => {
+        // Role : redirige l utilisateur vers une autre page.
         window.location = "index.html";
       }, 900);
     } catch (err) {

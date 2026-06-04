@@ -1,3 +1,4 @@
+// Role du fichier : routes des avis clients et de leur moderation.
 const express = require("express");
 const { requireAuth, requireRole } = require("../middleware/auth");
 const reviewRepository = require("../repositories/reviewRepository");
@@ -5,6 +6,7 @@ const orderRepository = require("../repositories/orderRepository");
 
 const router = express.Router();
 
+// Role : fonction serializeReview pour isoler une action reutilisable.
 function serializeReview(row) {
   return {
     id: row.id,
@@ -18,6 +20,7 @@ function serializeReview(row) {
   };
 }
 
+// Role : route POST /.
 router.post("/", requireAuth, requireRole("utilisateur"), async (req, res) => {
   const { orderId, note, commentaire = "" } = req.body || {};
   if (!orderId || !note) return res.status(400).json({ error: "orderId et note requis." });
@@ -43,16 +46,19 @@ router.post("/", requireAuth, requireRole("utilisateur"), async (req, res) => {
   return res.status(201).json(serializeReview(review));
 });
 
+// Role : route GET /me.
 router.get("/me", requireAuth, requireRole("utilisateur"), async (req, res) => {
   const rows = await reviewRepository.findForUser(req.user.id);
   return res.json(rows.map(serializeReview));
 });
 
+// Role : route GET /pending.
 router.get("/pending", requireAuth, requireRole("employe", "admin"), async (_req, res) => {
   const rows = await reviewRepository.findPending();
   return res.json(rows.map(serializeReview));
 });
 
+// Role : route PATCH /:id.
 router.patch("/:id", requireAuth, requireRole("employe", "admin"), async (req, res) => {
   const id = Number(req.params.id);
   const { action } = req.body || {};
@@ -68,9 +74,11 @@ router.patch("/:id", requireAuth, requireRole("employe", "admin"), async (req, r
   return res.json({ ok: true });
 });
 
+// Role : route GET /validated.
 router.get("/validated", async (_req, res) => {
   const rows = await reviewRepository.findValidated();
   return res.json(rows.map(serializeReview));
 });
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = router;

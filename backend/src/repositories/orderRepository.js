@@ -1,5 +1,7 @@
+// Role du fichier : acces base de donnees pour les commandes et leur historique.
 const { one, many, query } = require("../db/postgres");
 
+// Role : fonction createOrder pour isoler une action reutilisable.
 async function createOrder(data, client = null) {
   const row = await one(`
     INSERT INTO orders (
@@ -28,6 +30,7 @@ async function createOrder(data, client = null) {
   return row.id;
 }
 
+// Role : fonction addHistory pour isoler une action reutilisable.
 async function addHistory(orderId, status, note, client = null) {
   await query(`
     INSERT INTO order_history (order_id, status, note)
@@ -35,6 +38,7 @@ async function addHistory(orderId, status, note, client = null) {
   `, [orderId, status, note], client);
 }
 
+// Role : fonction findById pour isoler une action reutilisable.
 async function findById(orderId, client = null) {
   return one(`
     SELECT o.*, m.titre AS menu_titre
@@ -44,6 +48,7 @@ async function findById(orderId, client = null) {
   `, [orderId], client);
 }
 
+// Role : fonction findHistory pour isoler une action reutilisable.
 async function findHistory(orderId, client = null) {
   return many(`
     SELECT status, note, changed_at AS at
@@ -53,6 +58,7 @@ async function findHistory(orderId, client = null) {
   `, [orderId], client);
 }
 
+// Role : fonction findMany pour isoler une action reutilisable.
 async function findMany({ user, status, clientSearch }, client = null) {
   const conditions = [];
   const values = [];
@@ -81,6 +87,7 @@ async function findMany({ user, status, clientSearch }, client = null) {
   `, values, client);
 }
 
+// Role : fonction updateOrder pour isoler une action reutilisable.
 async function updateOrder(orderId, updates, client = null) {
   const fields = [];
   const values = [];
@@ -93,20 +100,24 @@ async function updateOrder(orderId, updates, client = null) {
   await query(`UPDATE orders SET ${fields.join(", ")} WHERE id = $${index}`, values, client);
 }
 
+// Role : fonction findOrderIdsByMenu pour isoler une action reutilisable.
 async function findOrderIdsByMenu(menuId, client = null) {
   const rows = await many("SELECT id FROM orders WHERE menu_id = $1", [menuId], client);
   return rows.map((row) => row.id);
 }
 
+// Role : fonction deleteOrdersByMenu pour isoler une action reutilisable.
 async function deleteOrdersByMenu(menuId, client = null) {
   await query("DELETE FROM orders WHERE menu_id = $1", [menuId], client);
 }
 
+// Role : fonction deleteHistoryByOrderIds pour isoler une action reutilisable.
 async function deleteHistoryByOrderIds(orderIds, client = null) {
   if (!orderIds.length) return;
   await query("DELETE FROM order_history WHERE order_id = ANY($1::int[])", [orderIds], client);
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   createOrder,
   addHistory,

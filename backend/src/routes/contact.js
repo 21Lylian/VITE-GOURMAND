@@ -1,3 +1,4 @@
+// Role du fichier : routes contact et envoi email.
 const express = require("express");
 const nodemailer = require("nodemailer");
 const { requireAuth, requireRole } = require("../middleware/auth");
@@ -15,10 +16,12 @@ const router = express.Router();
 
 let transporter = null;
 
+// Role : fonction smtpConfigured pour isoler une action reutilisable.
 function smtpConfigured() {
   return Boolean(SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS && CONTACT_TO);
 }
 
+// Role : fonction getTransporter pour isoler une action reutilisable.
 function getTransporter() {
   if (!smtpConfigured()) return null;
   if (transporter) return transporter;
@@ -34,6 +37,7 @@ function getTransporter() {
   return transporter;
 }
 
+// Role : fonction sendContactMail pour isoler une action reutilisable.
 async function sendContactMail({ id, title, description, email, createdAt }) {
   const t = getTransporter();
   if (!t) return false;
@@ -59,6 +63,7 @@ async function sendContactMail({ id, title, description, email, createdAt }) {
   return true;
 }
 
+// Role : route POST /.
 router.post("/", async (req, res) => {
   const { title, description, email } = req.body || {};
   if (!title || !description || !email) {
@@ -103,9 +108,11 @@ router.post("/", async (req, res) => {
   });
 });
 
+// Role : route GET /.
 router.get("/", requireAuth, requireRole("employe", "admin"), async (_req, res) => {
   const messages = await contactRepository.listContacts();
   return res.json(messages);
 });
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = router;

@@ -1,6 +1,8 @@
+// Role du fichier : middleware JWT et controle des roles.
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 
+// Role : fonction requireAuth pour isoler une action reutilisable.
 function requireAuth(req, res, next) {
   const header = req.headers.authorization || "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : null;
@@ -15,6 +17,7 @@ function requireAuth(req, res, next) {
   }
 }
 
+// Role : fonction requireRole pour isoler une action reutilisable.
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
@@ -24,6 +27,7 @@ function requireRole(...roles) {
   };
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   requireAuth,
   requireRole

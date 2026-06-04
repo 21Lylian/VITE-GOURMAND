@@ -1,4 +1,6 @@
+// Role du fichier : tableau de bord admin front-end historique.
 // admin.js - demo admin for charts and order/user management
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   const menus = (window.AppData && typeof window.AppData.getMenus === "function")
     ? window.AppData.getMenus()
@@ -21,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderUsers(users);
 });
 
+// Role : fonction renderKpis pour isoler une action reutilisable.
 function renderKpis(orders, users) {
   const kpiOrders = document.getElementById("kpi-orders");
   const kpiUsers = document.getElementById("kpi-users");
@@ -32,6 +35,7 @@ function renderKpis(orders, users) {
   if (kpiRevenue) kpiRevenue.textContent = `${revenue.toFixed(2)} EUR`;
 }
 
+// Role : fonction renderChart pour isoler une action reutilisable.
 function renderChart(stats) {
   const canvas = document.getElementById("chart-ca");
   if (!canvas || typeof Chart === "undefined") return;
@@ -59,6 +63,7 @@ function renderChart(stats) {
 
 
 
+// Role : fonction renderOrders pour isoler une action reutilisable.
 function renderOrders(orders) {
   const ordersDiv = document.getElementById("admin-orders");
   if (!ordersDiv) return;
@@ -115,6 +120,7 @@ function renderOrders(orders) {
   });
 }
 
+// Role : fonction renderUsers pour isoler une action reutilisable.
 function renderUsers(users) {
   const usersDiv = document.getElementById("admin-users");
   if (!usersDiv) return;

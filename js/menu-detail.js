@@ -1,8 +1,11 @@
+// Role du fichier : affichage detaille d un menu.
+// Role : fonction getMenuId pour isoler une action reutilisable.
 function getMenuId() {
   const params = new URLSearchParams(window.location.search);
   return parseInt(params.get("id"), 10);
 }
 
+// Role : fonction afficherDetailMenu pour isoler une action reutilisable.
 function afficherDetailMenu(menu) {
   const section = document.getElementById("menu-detail");
   const btnCommander = document.getElementById("btn-commander");
@@ -40,6 +43,7 @@ function afficherDetailMenu(menu) {
   `;
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   const id = getMenuId();
   if (!Number.isFinite(id)) {
@@ -65,9 +69,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   btnCommander.addEventListener("click", function () {
     const user = window.Api.getUser();
     if (!user) {
+      // Role : redirige l utilisateur vers une autre page.
       window.location = `connexion.html?next=${encodeURIComponent(`commande.html?id=${id}`)}`;
       return;
     }
+    // Role : redirige l utilisateur vers une autre page.
     window.location = `commande.html?id=${id}`;
   });
 });

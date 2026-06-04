@@ -1,3 +1,4 @@
+// Role du fichier : connexion PostgreSQL, transactions, schema et donnees initiales.
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
@@ -9,25 +10,30 @@ const pool = new Pool({
   ssl: DB_SSL ? { rejectUnauthorized: false } : false
 });
 
+// Role : fonction getExecutor pour isoler une action reutilisable.
 function getExecutor(client) {
   return client || pool;
 }
 
+// Role : fonction query pour isoler une action reutilisable.
 async function query(text, params = [], client = null) {
   const executor = getExecutor(client);
   return executor.query(text, params);
 }
 
+// Role : fonction one pour isoler une action reutilisable.
 async function one(text, params = [], client = null) {
   const result = await query(text, params, client);
   return result.rows[0] || null;
 }
 
+// Role : fonction many pour isoler une action reutilisable.
 async function many(text, params = [], client = null) {
   const result = await query(text, params, client);
   return result.rows;
 }
 
+// Role : fonction withTransaction pour isoler une action reutilisable.
 async function withTransaction(work) {
   const client = await pool.connect();
   try {
@@ -43,17 +49,20 @@ async function withTransaction(work) {
   }
 }
 
+// Role : fonction hasRows pour isoler une action reutilisable.
 async function hasRows(tableName, client = null) {
   const row = await one(`SELECT COUNT(*)::int AS count FROM ${tableName}`, [], client);
   return Boolean(row && row.count > 0);
 }
 
+// Role : fonction createSchema pour isoler une action reutilisable.
 async function createSchema() {
   const schemaPath = DB_SCHEMA_PATH || path.join(process.cwd(), "sql", "schema.sql");
   const schemaSql = fs.readFileSync(schemaPath, "utf8");
   await query(schemaSql);
 }
 
+// Role : fonction seedMenus pour isoler une action reutilisable.
 async function seedMenus(client) {
   if (await hasRows("menus", client)) return;
 
@@ -122,6 +131,7 @@ async function seedMenus(client) {
   }
 }
 
+// Role : fonction seedAdmin pour isoler une action reutilisable.
 async function seedAdmin(client) {
   const admin = await one("SELECT id FROM users WHERE email = $1", ["admin@vite-gourmand.local"], client);
   if (admin) return;
@@ -132,6 +142,7 @@ async function seedAdmin(client) {
   `, ["Admin", "System", "admin@vite-gourmand.local", passwordHash, "admin", "0600000001", "Bordeaux"], client);
 }
 
+// Role : fonction seedSettings pour isoler une action reutilisable.
 async function seedSettings(client) {
   const hasHours = await one("SELECT key FROM settings WHERE key = 'business_hours'", [], client);
   if (hasHours) return;
@@ -147,6 +158,7 @@ async function seedSettings(client) {
   await query("INSERT INTO settings (key, value_json) VALUES ($1, $2::jsonb)", ["business_hours", JSON.stringify(defaultHours)], client);
 }
 
+// Role : fonction initDb pour isoler une action reutilisable.
 async function initDb() {
   await createSchema();
   await withTransaction(async (client) => {
@@ -156,6 +168,7 @@ async function initDb() {
   });
 }
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   pool,
   query,

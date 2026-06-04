@@ -1,3 +1,4 @@
+// Role du fichier : donnees locales de secours pour le front-end.
 (function () {
   const DEFAULT_MENUS = [
     {
@@ -36,10 +37,12 @@
     }
   ];
 
+  // Role : fonction clone pour isoler une action reutilisable.
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
   }
 
+  // Role : fonction ensureMenus pour isoler une action reutilisable.
   function ensureMenus() {
     const existing = JSON.parse(localStorage.getItem("menus") || "null");
     if (!Array.isArray(existing) || existing.length === 0) {
@@ -53,14 +56,17 @@
     return sanitized;
   }
 
+  // Role : fonction getMenus pour isoler une action reutilisable.
   function getMenus() {
     return ensureMenus();
   }
 
+  // Role : fonction getMenuById pour isoler une action reutilisable.
   function getMenuById(id) {
     return getMenus().find((m) => m.id === id) || null;
   }
 
+  // Role : fonction ensureStocks pour isoler une action reutilisable.
   function ensureStocks() {
     const menus = getMenus();
     const current = JSON.parse(localStorage.getItem("menuStocks") || "{}");
@@ -71,6 +77,7 @@
     return current;
   }
 
+  // Role : expose AppData pour les autres scripts front-end.
   window.AppData = {
     getMenus,
     getMenuById,

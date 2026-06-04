@@ -1,12 +1,16 @@
+// Role du fichier : page de creation de commande utilisateur.
+// Role : fonction getMenuIdFromUrl pour isoler une action reutilisable.
 function getMenuIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return parseInt(params.get("id"), 10);
 }
 
+// Role : fonction toMoney pour isoler une action reutilisable.
 function toMoney(value) {
   return `${Number(value).toFixed(2)} EUR`;
 }
 
+// Role : fonction calculerPrix pour isoler une action reutilisable.
 function calculerPrix(menu, nbPers, ville, km) {
   const ratio = nbPers / menu.nbPersonnes;
   const prixMenuBrut = menu.prix * ratio;
@@ -23,9 +27,11 @@ function calculerPrix(menu, nbPers, ville, km) {
   };
 }
 
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   const user = window.Api.getUser();
   if (!user) {
+    // Role : redirige l utilisateur vers une autre page.
     window.location = "connexion.html?next=commande.html";
     return;
   }
@@ -77,11 +83,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   gsmInput.value = user.gsm || "";
   villeInput.value = "Bordeaux";
 
+  // Role : fonction getMenuSelectionne pour isoler une action reutilisable.
   function getMenuSelectionne() {
     const menuId = parseInt(menuSelect.value, 10);
     return menus.find((m) => m.id === menuId) || null;
   }
 
+  // Role : fonction updateRecap pour isoler une action reutilisable.
   function updateRecap() {
     const menu = getMenuSelectionne();
     if (!menu) {
@@ -148,6 +156,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       updateRecap();
       setTimeout(() => {
         confirmation.style.display = "none";
+        // Role : redirige l utilisateur vers une autre page.
         window.location = "espace-utilisateur.html";
       }, 1000);
     } catch (err) {

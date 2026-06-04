@@ -1,4 +1,6 @@
+// Role du fichier : espace employe pour menus, commandes, horaires et avis.
 // Permet de définir les transitions de statut possibles pour une commande, en fonction du statut actuel et du rôle de l'utilisateur.
+// Role : fonction getStatutLabel pour isoler une action reutilisable.
 function getStatutLabel(status) {
   const labels = {
     "en-attente": "En attente",
@@ -15,10 +17,12 @@ function getStatutLabel(status) {
 // Permet de définir les transitions de statut possibles pour une commande, en fonction du statut actuel et du rôle de l'utilisateur.
 const HIDDEN_TEST_CLIENTS = new Set(["test", "2 test", "user test", "user order"]);
 
+// Role : fonction normalizeText pour isoler une action reutilisable.
 function normalizeText(value) {
   return String(value || "").trim().toLowerCase();
 }
 // Permet de déterminer si une commande doit être considérée comme un test et donc cachée dans l'interface employé, en se basant sur le nom et l'email du client.
+// Role : fonction isHiddenTestOrder pour isoler une action reutilisable.
 function isHiddenTestOrder(order) {
   const fullName = normalizeText(`${order.clientPrenom || ""} ${order.clientNom || ""}`);
   const firstName = normalizeText(order.clientPrenom);
@@ -32,6 +36,7 @@ function isHiddenTestOrder(order) {
   return false;
 }
 // Permet de parser une liste d'allergènes à partir d'une chaîne de caractères, en séparant par des virgules et en nettoyant les espaces.
+// Role : fonction parseAllergenes pour isoler une action reutilisable.
 function parseAllergenes(text) {
   return (text || "")
     .split(",")
@@ -39,6 +44,7 @@ function parseAllergenes(text) {
     .filter(Boolean);
 }
 // Permet d'afficher une série de prompts modaux pour saisir les informations d'un plat, avec des valeurs initiales optionnelles pour faciliter la modification.
+// Role : fonction saisirPlat pour isoler une action reutilisable.
 async function saisirPlat(initial) {
   const type = await showModalPrompt("Type de plat (Entree/Plat/Dessert)", initial ? initial.type : "");
   if (type === null) return null;
@@ -56,6 +62,7 @@ async function saisirPlat(initial) {
   };
 }
 // Permet d'afficher une série de prompts modaux pour saisir les informations d'un menu, avec des valeurs initiales optionnelles pour faciliter la modification.
+// Role : fonction saisirMenu pour isoler une action reutilisable.
 async function saisirMenu(initial) {
   const titre = await showModalPrompt("Titre du menu", initial ? initial.titre : "");
   if (titre === null) return null;
@@ -88,6 +95,7 @@ async function saisirMenu(initial) {
   };
 }
 // Permet de rafraîchir les indicateurs clés de performance (KPIs) affichés dans l'interface employé, en récupérant les données actuelles des menus, commandes et avis en attente.
+// Role : fonction refreshKpis pour isoler une action reutilisable.
 async function refreshKpis() {
   const menus = await window.Api.menus();
   const orders = (await window.Api.listOrders()).filter((o) => !isHiddenTestOrder(o));
@@ -105,9 +113,11 @@ async function refreshKpis() {
   if (kpiAvis) kpiAvis.textContent = String(pendingReviews.length);
 }
 // Code principal qui s'exécute une fois que le DOM est complètement chargé, pour initialiser l'interface employé en fonction de l'utilisateur connecté et des données actuelles.
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", async function () {
   const user = window.Api.getUser();
   if (!user) {
+    // Role : redirige l utilisateur vers une autre page.
     window.location = "connexion.html?next=espace-employe.html";
     return;
   }
@@ -119,12 +129,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let menuDetails = [];
 
+  // Role : fonction loadMenusDetailed pour isoler une action reutilisable.
   async function loadMenusDetailed() {
     const menus = await window.Api.menus();
     menuDetails = await Promise.all(menus.map((m) => window.Api.menuById(m.id)));
     return menuDetails;
   }
 
+  // Role : fonction renderMenus pour isoler une action reutilisable.
   async function renderMenus() {
     const container = document.getElementById("liste-menus-employe");
     container.innerHTML = "";
@@ -219,6 +231,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   // Permet d'afficher les horaires de la semaine dans les champs correspondants, en récupérant les données actuelles via l'API.
+  // Role : fonction renderHoraires pour isoler une action reutilisable.
   async function renderHoraires() {
     const horaires = await window.Api.getHours();
     document.getElementById("horaire-lundi").value = horaires.lundi || "";
@@ -247,6 +260,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await showModalConfirm("Horaires mis à jour.");
   });
 // Permet de récupérer et d'afficher la liste des commandes dans le tableau de l'interface employé, en appliquant les filtres de statut et de client, et en offrant la possibilité de changer le statut de chaque commande.
+  // Role : fonction renderCommandes pour isoler une action reutilisable.
   async function renderCommandes() {
     const tbody = document.getElementById("commandes-employe");
     const status = document.getElementById("statut").value || undefined;
@@ -318,6 +332,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("client").addEventListener("input", renderCommandes);
   document.getElementById("statut").addEventListener("change", renderCommandes);
 
+  // Role : fonction renderAvisPending pour isoler une action reutilisable.
   async function renderAvisPending() {
     const ul = document.getElementById("avis-a-valider");
     const reviews = await window.Api.pendingReviews();

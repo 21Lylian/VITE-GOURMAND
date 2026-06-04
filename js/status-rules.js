@@ -1,5 +1,7 @@
+// Role du fichier : regles front-end de transition des statuts de commande.
 // Règles de transition de statuts selon le rôle (front-end demo)
 (function(){
+  // Role : decrit les transitions autorisees par role utilisateur.
   const RULES = {
     utilisateur: {
       'en-attente': ['annule'],
@@ -24,6 +26,7 @@
     }
   };
 
+  // Role : fonction getAllowedTransitions pour isoler une action reutilisable.
   function getAllowedTransitions(currentStatus, role) {
     if (!currentStatus) currentStatus = 'en-attente';
     if (role === 'admin') return ['en-attente','accepte','preparation','livraison','livre','terminee','retour','annule'];
@@ -31,5 +34,6 @@
     return (map[currentStatus] || []);
   }
 
+  // Role : expose getAllowedTransitions pour les autres scripts front-end.
   window.getAllowedTransitions = getAllowedTransitions;
 })();

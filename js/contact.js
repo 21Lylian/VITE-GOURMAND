@@ -1,3 +1,5 @@
+// Role du fichier : formulaire de contact front-end.
+// Role : initialise la page quand le HTML est pret.
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("form-contact");
   const confirmation = document.getElementById("confirmation");

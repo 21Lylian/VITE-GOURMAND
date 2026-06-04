@@ -1,3 +1,4 @@
+// Role du fichier : configuration centralisee via variables d environnement.
 const path = require("path");
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
@@ -13,6 +14,7 @@ const SMTP_PASS = process.env.SMTP_PASS || "";
 const CONTACT_TO = process.env.CONTACT_TO || "";
 const CONTACT_FROM = process.env.CONTACT_FROM || SMTP_USER || "no-reply@vite-gourmand.local";
 
+// Role : exporte les fonctions utilisees par les autres modules.
 module.exports = {
   JWT_SECRET,
   PORT,
