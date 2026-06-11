@@ -63,6 +63,5 @@ Variables:
 - `GET /api/admin/employees` (admin)
 
 ## Comptes de base
-- Admin seed:
-  - email: `admin@vite-gourmand.local`
-  - mot de passe: `Admin!12345`
+- Un compte administrateur de demonstration peut etre prepare pour la soutenance.
+- Les identifiants sont transmis separement et ne sont pas publies dans la documentation.

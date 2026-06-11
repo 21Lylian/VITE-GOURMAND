@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
-const { DATABASE_URL, DB_SSL, DB_SCHEMA_PATH } = require("../config");
+const { DATABASE_URL, DB_SSL, DB_SCHEMA_PATH, ADMIN_EMAIL, ADMIN_PASSWORD } = require("../config");
 const { hashPassword } = require("../utils/password");
 
 const pool = new Pool({
@@ -133,13 +133,16 @@ async function seedMenus(client) {
 
 // Role : fonction seedAdmin pour isoler une action reutilisable.
 async function seedAdmin(client) {
-  const admin = await one("SELECT id FROM users WHERE email = $1", ["admin@vite-gourmand.local"], client);
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) return;
+
+  const adminEmail = ADMIN_EMAIL.trim().toLowerCase();
+  const admin = await one("SELECT id FROM users WHERE email = $1", [adminEmail], client);
   if (admin) return;
-  const passwordHash = await hashPassword("Admin!12345");
+  const passwordHash = await hashPassword(ADMIN_PASSWORD);
   await query(`
     INSERT INTO users (nom, prenom, email, password_hash, role, gsm, adresse, disabled)
     VALUES ($1, $2, $3, $4, $5, $6, $7, false)
-  `, ["Admin", "System", "admin@vite-gourmand.local", passwordHash, "admin", "0600000001", "Bordeaux"], client);
+  `, ["Admin", "System", adminEmail, passwordHash, "admin", "", ""], client);
 }
 
 // Role : fonction seedSettings pour isoler une action reutilisable.

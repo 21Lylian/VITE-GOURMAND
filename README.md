@@ -96,10 +96,9 @@ Note:
 - le stockage NoSQL JSON reste local au serveur et peut etre reinitialise sur certains redeploiements
 - pour une persistance stricte en production, il faudra ensuite remplacer ce stockage par un vrai service NoSQL
 
-## LE Compte administrateur  ()
+## Compte administrateur de demonstration
 
-- Email : `admin@vite-gourmand.local`
-- Mot de passe : `Admin!12345`
+Un compte administrateur est prepare pour la soutenance. Les identifiants sont transmis separement et ne sont pas publies dans le depot.
 
 ## Pages principales
 
@@ -130,10 +129,11 @@ Note:
 - Back-end healthcheck : `https://vite-gourmand-1.onrender.com/api/health`
 
 Note importante (Render - offre gratuite) :
-- Le back-end est heberge sur l'offre gratuite de Render.
+- L'API Node.js et la base PostgreSQL sont hebergees sur l'offre gratuite de Render.
 - En cas d'inactivite, le service peut se mettre en veille (cold start).
 - Lors du premier acces, il faudra attendre environ 1 minute pour que le serveur redemarre completement.
 - Si l'API ne repond pas immediatement, patienter 60 secondes puis recharger la page.
+- Pour un usage en production, une sauvegarde reguliere de la base PostgreSQL devra etre configuree.
 
 Fonctionnalites couvertes :
 

@@ -29,7 +29,7 @@ Resultat:
 - Verification: presence d'une ligne de commande dans le tableau utilisateur.
 
 3. Administrateur
-- Connexion admin via formulaire (`admin@vite-gourmand.local`).
+- Connexion admin via formulaire avec les identifiants de demonstration transmis separement.
 - Ouverture `espace-admin.html`.
 - Creation d'un compte employe.
 - Verification: employe visible dans la liste.

@@ -9,9 +9,7 @@ Cette application permet de consulter des menus traiteur, passer des commandes, 
 - Sante API: `http://localhost:3000/api/health`
 
 ## 3. Comptes de test
-- Administrateur (seed):
-  - Email: `admin@vite-gourmand.local`
-  - Mot de passe: `Admin!12345`
+- Administrateur: les identifiants de demonstration sont transmis separement.
 - Utilisateur: creation via `inscription.html`
 - Employe: creation par administrateur via `espace-admin.html`
 

@@ -8,9 +8,8 @@ Date: 17/02/2026
 - URL front: `http://127.0.0.1:4173/index.html`
 - Health API: `http://127.0.0.1:3000/api/health`
 
-## Compte admin seed
-- Email: `admin@vite-gourmand.local`
-- Mot de passe: `Admin!12345`
+## Compte admin 
+- Utiliser les identifiants de demonstration transmis separement.
 
 ## Parcours de verification
 1. Peut se connecter admin
@@ -38,5 +37,5 @@ Date: 17/02/2026
 
 ## Critere de validation
 - Aucun `Failed to fetch` sur les parcours ci-dessus.
-- Les routes API renvoient 200/201 selon action.
+- Les routes API renvoie 200/201 selon action.
 - Les changements de statut sont visibles dans l'historique.
