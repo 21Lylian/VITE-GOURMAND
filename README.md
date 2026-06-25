@@ -2,6 +2,41 @@
 
 Application web ECF Developpeur Web / Web Mobile avec front `HTML/CSS/JS` et API Node.js securisee.
 
+## A lire en premier pour le correcteur
+
+Ce depot ne contient pas seulement une page GitHub Pages statique. La page deployee montre le front, mais l'architecture complete est dans le depot GitHub.
+
+Elements importants a verifier:
+
+- Architecture backend: `backend/src`
+- Routes / controleurs Express: `backend/src/routes`
+- Services metier: `backend/src/services`
+- Pattern Repository: `backend/src/repositories`
+- Modele SQL: `sql/schema.sql`
+- Documentation technique: `docs/livrables/documentation-technique.md`
+- Documentation Product Owner: `docs/livrables/product-owner.md`
+- Diagrammes UML/MCD: `docs/livrables/diagrammes-uml.md`
+
+Architecture principale:
+
+```text
+Front HTML/CSS/JS
+  -> API Express
+    -> routes/*       (controleurs HTTP)
+    -> services/*     (regles metier)
+    -> repositories/* (acces aux donnees SQL)
+    -> PostgreSQL + store NoSQL JSON
+```
+
+Patterns presents dans le projet:
+
+- Pattern Repository: centralisation des requetes SQL dans `backend/src/repositories`.
+- Separation type MVC adaptee a Node/Express:
+  - Vue: pages HTML/CSS/JS du front.
+  - Controleur: routes Express dans `backend/src/routes`.
+  - Modele / persistence: schema SQL + repositories.
+- Couche Service: logique metier separee des routes.
+
 ## Stack technique
 
 - Front-end : HTML5, CSS3, JavaScript
@@ -122,6 +157,19 @@ Un compte administrateur est prepare pour la soutenance. Les identifiants sont t
 - Healthcheck : `GET /api/health`
 - Documentation backend : `docs/backend-setup.md`
 
+Structure backend:
+
+```text
+backend/src
+|-- app.js
+|-- routes/          # controleurs HTTP Express
+|-- services/        # logique metier
+|-- repositories/    # pattern Repository, acces SQL
+|-- db/              # connexions PostgreSQL et NoSQL JSON
+|-- middleware/      # authentification et roles
+`-- utils/           # fonctions metier partagees
+```
+
 ## Liens de deploiement
 
 - Front (GitHub Pages) : `https://21Lylian.github.io/VITE-GOURMAND/`
@@ -164,6 +212,7 @@ Documents prets a convertir en PDF :
 - Manuel d'utilisation : `docs/livrables/manuel-utilisation.md`
 - Charte graphique : `docs/livrables/charte-graphique.md`
 - Gestion de projet : `docs/livrables/gestion-projet.md`
+- Product Owner / backlog : `docs/livrables/product-owner.md`
 - Documentation technique : `docs/livrables/documentation-technique.md`
 - Documentation de deploiement : `docs/livrables/deploiement.md`
 - Diagrammes UML/MCD : `docs/livrables/diagrammes-uml.md`

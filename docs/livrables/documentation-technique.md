@@ -27,6 +27,65 @@ Justification:
   - SQL: entites metier transactionnelles
   - NoSQL: agregats analytiques commandes
 
+### Architecture backend visible dans le depot
+
+```text
+backend/src
+|-- app.js
+|-- routes/          # controleurs HTTP Express
+|-- services/        # logique metier
+|-- repositories/    # acces aux donnees, pattern Repository
+|-- db/              # PostgreSQL et store NoSQL JSON
+|-- middleware/      # authentification, roles
+`-- utils/           # regles partagees
+```
+
+Flux principal:
+
+```text
+Front -> route Express -> service metier -> repository -> PostgreSQL
+```
+
+Exemple commande:
+
+```text
+commande.html / js/commande.js
+-> backend/src/routes/orders.js
+-> backend/src/services/orderService.js
+-> backend/src/repositories/orderRepository.js
+-> sql/schema.sql
+```
+
+### Pattern MVC adapte a Node.js/Express
+
+Le projet n'utilise pas un MVC framework classique comme Symfony ou Laravel. Il utilise une separation inspiree du MVC, adaptee a une API Express et un front statique:
+
+- Vue: pages `*.html`, `css/style.css`, fichiers `js/*.js`.
+- Controleur: routes Express dans `backend/src/routes`.
+- Modele / persistence: schema SQL `sql/schema.sql`, modules `backend/src/db` et repositories.
+
+Une couche `services/` est ajoutee entre les routes et les repositories afin d'isoler les regles metier.
+
+### Pattern Repository
+
+Le pattern Repository est present dans `backend/src/repositories`.
+
+Role:
+
+- centraliser les requetes SQL,
+- eviter de mettre du SQL dans les routes,
+- rendre les services plus lisibles,
+- separer la logique metier de la persistence.
+
+Repositories presents:
+
+- `userRepository.js`
+- `menuRepository.js`
+- `orderRepository.js`
+- `reviewRepository.js`
+- `contactRepository.js`
+- `settingsRepository.js`
+
 ## 4. Base relationnelle (SQL)
 Fichier: `backend/src/db/postgres.js`
 

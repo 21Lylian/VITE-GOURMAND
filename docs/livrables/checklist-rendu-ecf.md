@@ -9,6 +9,9 @@
 ## 2. Conformite technique
 - [x] Base relationnelle integree
 - [x] Base NoSQL integree
+- [x] Architecture Route -> Service -> Repository documentee
+- [x] Pattern Repository visible dans `backend/src/repositories`
+- [x] Separation inspiree MVC documentee
 - [x] Justification techno redigee
 - [x] Securite documentee (auth, roles, hash, validations)
 
@@ -22,6 +25,7 @@
 - [x] Manuel d'utilisation (source Markdown prete)
 - [x] Charte graphique (source Markdown prete)
 - [x] Documentation gestion de projet (source Markdown prete)
+- [x] Documentation Product Owner / backlog (source Markdown prete)
 - [x] Documentation technique (source Markdown prete, diagrammes inclus)
 
 ## 5. Accessibilite
@@ -37,6 +41,7 @@
 
 ## 7. Fichiers de preuve
 - Verification finale: `docs/livrables/verification-finale.md`
+- Product Owner / backlog: `docs/livrables/product-owner.md`
 - Accessibilite RGAA: `docs/livrables/accessibilite-rgaa.md`
 - Diagrammes UML/MCD: `docs/livrables/diagrammes-uml.md`
 - Validation SMTP contact: `docs/livrables/validation-smtp-contact.md`
